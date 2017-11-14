@@ -1,0 +1,87 @@
+%\documentclass{vldb}
+%\documentclass{sig-alternate}
+\documentclass{article}
+\usepackage{fullpage}
+
+\frenchspacing
+\sloppy
+\pdfpagewidth=8.5in
+\pdfpageheight=11in
+
+\usepackage[english]{babel}
+\usepackage{blindtext}
+\usepackage[T1]{fontenc}
+
+\usepackage{amsmath}
+\usepackage{comment}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[hide]{chato-notes}
+\usepackage{cite}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{xspace}
+\usepackage{algorithmic}
+\algsetup{linenosize=\small}
+\usepackage[ruled,lined,linesnumbered,noend]{algorithm2e}
+\newcommand\mycommfont[1]{\scriptsize\rmfamily\itshape\textcolor{black}{#1}}
+\SetCommentSty{mycommfont}
+\usepackage{epsfig}
+\usepackage{epstopdf}
+\usepackage[font={bf}]{caption}
+%\DeclareCaptionType{copyrightbox}
+\usepackage{xcolor}
+\usepackage{balance}
+\usepackage{enumitem}
+\usepackage{framed}
+
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks,breaklinks,
+	urlcolor=[rgb]{0,0.25,0.75},
+	linkcolor=[rgb]{0,0.25,0.75},
+	citecolor=[rgb]{0,0.25,0.75}
+}
+\input{preamble}
+
+\begin{document}
+
+
+
+
+%\numberofauthors{3}
+%\author{
+%\alignauthor
+%Wei Lu\\
+%        \affaddr{University of British Columbia}\\
+%       \affaddr{Vancouver, B.C., Canada}\\
+%       \email{welu@cs.ubc.ca}
+%\alignauthor
+%Wei Chen\\
+%       \affaddr{Microsoft Research}\\
+%       \affaddr{Beijing, China}\\
+%       \email{weic@microsoft.com}
+%\alignauthor Laks V.S. Lakshmanan\\
+%       \affaddr{University of British Columbia}\\
+%       \affaddr{Vancouver, B.C., Canada}\\
+%       \email{laks@cs.ubc.ca}
+%}
+
+\clearpage
+\section{Introduction}
+\input{sec-introduction}
+\section{Related work}
+\input{sec-rw}
+\section{Definitions and problem statement}\label{sec:pf}
+\input{sec-problem}
+
+{\scriptsize
+\bibliographystyle{abbrv}
+\bibliography{mainpaper}  % sigproc.bib is the name of the Bibliography in this case
+}
+\end{document}
+
+
+
+
+

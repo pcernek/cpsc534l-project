@@ -1,0 +1,23 @@
+In this section we formally define the notations and the problem we will be dealing with.
+\subsection{Set-up}
+As stated, in our problem we have a set of people $\hiredset$ who are part of an organization already. Our aim is to find a new set of people $\hireset$ from a candidate set $\candidates$ (clearly $\hireset \subseteq \candidates$) such that adding these new set maximizes the utility of the hire, subject to a budget constraints $k$, i.e. $|\hireset| = k$. The utility of hire depend on two parameters, namely the team which is denoted by graph $\org$ and the task distribution $\tasks$. We present the details about the parameters first and then present the formal definition of the utility.
+
+\subsubsection{Organization graph $\org$}
+The nodes in graph $\org(\nodes, \edges)$, represented by the set $\nodes = \{\hiredset \cup \candidates\}$, denote the people. As can be seen that it includes the people that are present in the organization already $\hiredset$ and the set of candidates $\candidates$. The edge set of graph $\org$ is denoted by $\edges$. An edge $\edge \in \edges$ is weighted, the weight $\weight(\edge)$ denotes the communication cost between the two people which are the endpoints of $\edge$. We assume the weight of all the edges involving even the candidates are known. 
+
+Further we use the notation $\org_{\nodes'}$ to denote the induced sub graph of $\org$ taken over the node set $\nodes'$. 
+
+\subsubsection{Task Distribution $\tasks$}
+We assume that the set of tasks are not known beforehand. Instead a probability distribution over the task is defined. $\tasks$ denotes the distribution.
+
+\subsubsection{Utility of an hire}
+The utility of the hire depends on the people who are hired and the tasks for which they are hired. Precisely we assume the $\utility(\org_{\nodes'},\task)$ denotes the utility of a node set $\nodes'$, people who are hired, for a task $\task \in \tasks$. The overall utility can then be computed as,
+$$\utility(\org_{\nodes'}, \tasks) = \sum_{i} Pr[T_i] \times \utility (\org_{\nodes'}, \task) $$
+
+Given this utility measure, we next proceed to define the expected gain from a possible hire set. Recall $\hireset$ denotes a possible set of hiring. Then the gain of this hire is,
+$$\gain(\hireset) = \utility(\org_{\hiredset \cup \hireset},\tasks) - \utility(\org_{\hiredset},\tasks) $$
+
+We are now ready to define our problem of hiring a team that maximizes hiring utility.
+\begin{problem}
+[HireMax] Given $\org = ( \nodes = \{ \hiredset \cup \candidates \}, \edges)$, denoting the set of all people and their communication costs, find a hire set $\hireset$ from a candidate set of hire $\candidates$ under a budget constraint $k$ which implies that $|hireset| = k$, such that adding the hire set to the existing set of hired people $\hiredset$ earns the highest expected gain in utility, $\gain(\hireset)$.
+\end{problem}

@@ -1,0 +1,179 @@
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\newcommand{\laks}[1]{{\color{brown} [\text{Laks: } \sf #1]}}
+\newcommand{\weic}[1]{{\color{blue} [\text{Wei Chen: } \sf #1]}}
+\newcommand{\weil}[1]{{\color{magenta} \textsf{[Wei Lu: #1]}}}
+\newcommand{\prit}[1]{{\color{red} \textsf{[Prithu Banerjee: #1]}}}
+\newcommand{\red}[1]{\textcolor{black}{#1}}
+\newcommand{\blue}[1]{\textcolor{black}{#1}}
+\newcommand{\pink}[1]{\textcolor{black}{#1}}
+
+\newcommand{\spara}[1]{\smallskip\noindent\textbf{#1.}}
+\newcommand{\mpara}[1]{\medskip\noindent\textbf{#1.}}
+
+
+\newcommand{\eat}[1]{}
+
+% this macro is used to mark text that will only appear in the full report
+\newcommand{\InFullOnly}[1]{}
+ 
+% This is a LaTeX file
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\makeatletter
+ 
+%\newtheoremstyle{mythmstyle}% name of the style to be used
+%  {3pt}% measure of space to leave above the theorem. E.g.: 3pt
+%  {3pt}% measure of space to leave below the theorem. E.g.: 3pt
+%  {}% name of font to use in the body of the theorem
+%  {}% measure of space to indent
+%  {}% name of head font
+%  {}% punctuation between head and body
+%  {}% space after theorem head; " " = normal interword space
+%  {}% Manually specify head
+%
+%\theoremstyle{mythmstyle}
+\newcommand{\nchoosek}[2]{{#1 \choose #2}}
+ 
+\newcommand{\mybox}[1]{\vspace{5pt}\centerline{\framebox{\parbox[c]{\textwidth}{#1}}}\vspace{5pt}}
+ 
+\newcommand{\BlackBox}{\rule{2.6mm}{2.6mm}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{claim}{Claim}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{condition}{Condition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
+\newtheorem{problem}{Problem}
+\newtheorem{property}{Property}
+\newtheorem{proposition}{Proposition}
+\newtheorem{sub-proposition}{Sub-proposition}
+\newcommand{\fillblackbox}{\hspace*{\fill}\(\BlackBox\)}
+\newcommand{\fillbox}{\hspace*{\fill}\(\Box\)}
+\newcommand{\fig}[1]{Figure~\ref{#1}}
+\newcommand{\eqn}[1]{Equation~\ref{#1}}
+\newcommand{\refsec}[1]{Section~\ref{#1}}
+\newcommand{\num}[1]{(\romannumeral#1)}
+% following is used to print programs within LaTeX
+% \noflash{...text...} makes a box as wide as its arg, but which is whitespace
+\def\noflash#1{\setbox0=\hbox{#1}\hbox to 1\wd0{\hfill}}
+% \input{linespace}
+ 
+
+
+% Macro used in the paper
+%\newcommand{\shortdividerline}{\begin{center} \line(1,0){150} \end{center}}
+%\newcommand{\dividerline}{\begin{center}\hrule\end{center}}
+\newcommand{\non}{{\tt NULL}\xspace}
+\newcommand{\U}{{\mathbb{U}}\xspace}
+\newcommand{\I}{{\mathbb{I}}\xspace}
+\newcommand{\seed}{{S}\xspace}
+\newcommand{\D}{{D}\xspace}
+\newcommand{\SW}{{SW}\xspace}
+\newcommand{\adopt}{{adopt}\xspace}
+\newcommand{\IN}{{inNeighbor}\xspace}
+\newcommand{\util}{{util}\xspace}
+\newcommand{\T}{{T}\xspace}
+\newcommand{\ua}{{u}\xspace}
+\newcommand{\ub}{{v}\xspace}
+\newcommand{\w}{{w}\xspace}
+\newcommand{\W}{{W}\xspace}
+\newcommand{\price}{{price}\xspace}
+\newcommand{\val}{{value}\xspace}
+\newcommand{\noise}{{noise}\xspace}
+\newcommand{\budget}{{B}\xspace}
+
+%% Prithu
+
+\newcommand{\candidate}{{c}\xspace}
+\newcommand{\candidates}{{C}\xspace}
+\newcommand{\hireset}{{H\xspace}}
+\newcommand{\org}{{G}\xspace}
+\newcommand{\nodes}{{V}}
+\newcommand{\edge}{e}
+\newcommand{\node}{v}
+\newcommand{\edges}{E}
+\newcommand{\weight}{w}
+\newcommand{\hiredset}{\mathcal{H}\xspace}
+\newcommand{\tasks}{\mathcal{T}}
+\newcommand{\task}{T}
+\newcommand{\utility}{util}
+\newcommand{\gain}{\delta}
+
+
+
+
+%% tight spacing in item lists
+\newcommand{\squishlist}{
+ \begin{list}{$\bullet$}
+  {  \setlength{\itemsep}{0pt}
+     \setlength{\parsep}{3pt}
+     \setlength{\topsep}{3pt}
+     \setlength{\partopsep}{0pt}
+     \setlength{\leftmargin}{2em}
+     \setlength{\labelwidth}{1.5em}
+     \setlength{\labelsep}{0.5em}
+} }
+\newcommand{\squishlisttight}{
+ \begin{list}{$\bullet$}
+  { \setlength{\itemsep}{0pt}
+    \setlength{\parsep}{0pt}
+    \setlength{\topsep}{0pt}
+    \setlength{\partopsep}{0pt}
+    \setlength{\leftmargin}{2em}
+    \setlength{\labelwidth}{1.5em}
+    \setlength{\labelsep}{0.5em}
+} }
+
+\newcommand{\squishdesc}{
+ \begin{list}{}
+  {  \setlength{\itemsep}{0pt}
+     \setlength{\parsep}{2pt}
+     \setlength{\topsep}{2pt}
+     \setlength{\partopsep}{0pt}
+     \setlength{\leftmargin}{2em}
+     \setlength{\labelwidth}{1.5em}
+     \setlength{\labelsep}{0.5em}
+    %\setlength{\itemindent}{2pt}
+} }
+
+\newcommand{\squishdesctight}{
+ \begin{list}{}
+  {  \setlength{\itemsep}{0pt}
+     \setlength{\parsep}{0pt}
+     \setlength{\topsep}{0pt}
+     \setlength{\partopsep}{0pt}
+     \setlength{\leftmargin}{1em}
+     \setlength{\labelwidth}{1.5em}
+     \setlength{\labelsep}{0.5em}
+  %  \setlength{\itemindent}{2pt}
+} }
+
+\newcommand{\squishnumlist} {
+\newcounter{qcounter}
+\begin{list}{\arabic{qcounter}.~}{\usecounter{qcounter}} 
+{  \setlength{\itemsep}{0pt}
+    \setlength{\parsep}{0pt}
+    \setlength{\topsep}{0pt}
+    \setlength{\partopsep}{0pt}
+    \setlength{\leftmargin}{2em}
+    \setlength{\labelwidth}{1.5em}
+    \setlength{\labelsep}{0.5em}
+}}
+
+\newcommand{\squishend}{
+  \end{list}
+}
+
+% for color mark changes
+\newcommand{\chgdel}[1]{\textcolor{red}{\sout{#1}}}
+\newcommand{\chgins}[1]{\textcolor{blue}{#1}}
+
+% strickout in math mode
+\newcommand{\msout}[1]{\text{\sout{\ensuremath{#1}}}}
+\newcommand{\chgdelm}[1]{\textcolor{red}{\msout{#1}}}
+% strickout by a slash in math mode
+\newcommand{\chgdels}[1]{\textcolor{red}{\cancel{#1}}}
