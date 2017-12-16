@@ -1,3 +1,14 @@
+@inproceedings{lappas2009finding,
+	title={Finding a team of experts in social networks},
+	author={Lappas, Theodoros and Liu, Kun and Terzi, Evimaria},
+	booktitle={Proceedings of the 15th ACM SIGKDD international conference on Knowledge discovery and data mining},
+	pages={467--476},
+	year={2009},
+	organization={ACM},
+	annotate={The original TF problem formulation.
+	Uses the DBLP dataset (and is often cited for this).}
+}
+
 @inproceedings{anagnostopoulos2012online,
   title={Online team formation in social networks},
   author={Anagnostopoulos, Aris and Becchetti, Luca and Castillo, Carlos and Gionis, Aristides and Leonardi, Stefano},
@@ -5,5 +16,29 @@
   pages={839--848},
   year={2012},
   organization={ACM},
-  annotate={Uses the IMDB and the Bibsonomy datasets.}
+  annotate={Uses datasets generated from IMDB and Bibsonomy.}
+}
+
+@inproceedings{bhowmik2014submodularity,
+	title={Submodularity in team formation problem},
+	author={Bhowmik, Avradeep and Borkar, Vivek and Garg, Dinesh and Pallan, Madhavan},
+	booktitle={Proceedings of the 2014 SIAM International Conference on Data Mining},
+	pages={893--901},
+	year={2014},
+	organization={SIAM},
+	annotate={Generalizes previous variants of TF under a single framework, showing that it's an unconstrained submodular function maximization problem, though it is non-monotone.
+	Their generalizations include accounting for "optional" skills, allowing communication to go outside the team, and relaxing the constraint that the whole team be connected.
+	Experiments use the DBLP dataset.}
+}
+
+@inproceedings{rangapuram2013towards,
+	title={Towards realistic team formation in social networks based on densest subgraphs},
+	author={Rangapuram, Syama Sundar and B{\"u}hler, Thomas and Hein, Matthias},
+	booktitle={Proceedings of the 22nd international conference on World Wide Web},
+	pages={1077--1088},
+	year={2013},
+	organization={ACM},
+	annotate={Generalizes the TF problem by incorporating more ``realistic'' constraints, such as team leaders, max team sizes, and geographic locality.
+	Their formulation results in a generalized version of the ``densest subgraph problem'' with cardinality constraints, for which they then develop an approximation via a continuous relaxation.
+	Worth looking at to see what their ``broader range of team formation problems'' are.}
 }
