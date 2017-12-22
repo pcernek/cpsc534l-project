@@ -21,11 +21,9 @@
 \usepackage{color}
 \usepackage{graphicx}
 \usepackage{xspace}
-\usepackage{algorithmic}
-\algsetup{linenosize=\small}
-\usepackage[ruled,lined,linesnumbered,noend]{algorithm2e}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \newcommand\mycommfont[1]{\scriptsize\rmfamily\itshape\textcolor{black}{#1}}
-\SetCommentSty{mycommfont}
 \usepackage{epsfig}
 \usepackage{epstopdf}
 \usepackage[font={bf}]{caption}
@@ -74,6 +72,8 @@
 \input{sections/rw}
 \section{Definitions and problem statement}\label{sec:pf}
 \input{sections/problem}
+\section{Algorithms}
+\input{sections/algorithms}
 
 \bibliographystyle{apalike}
 \bibliography{bib/paper}  % sigproc.bib is the name of the Bibliography in this case

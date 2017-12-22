@@ -1,0 +1,21 @@
+\begin{algorithm}
+	\caption{\textsc{GreedRatio} for RS minimization }
+	\label{alg:greed-ratio}
+	\begin{algorithmic}[1]
+		\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+		\renewcommand{\algorithmicensure}{\textbf{Output:}}
+		\Require $ f $ and $ g $
+		\Ensure An approximation solution $ \hat{X} $
+		
+		\State Initialize: $ X_0 \leftarrow \emptyset $, $ R \leftarrow V $ and $ i \leftarrow 0 $
+		\While{ $ R \neq \emptyset $ }
+		\State $ v \in \arg \min_{v \in R} \frac{f(v|X_i)}{g(v|X_i)} $
+		\State $ X_{i+1} \leftarrow X_i \cup \left\{ v \right\} $
+		\State $ R \leftarrow \left\{ v \in R | g(v|X_{i+1}) > 0 \right\} $
+		\State $ i \leftarrow i + 1 $
+		\EndWhile
+		
+		\State $ i^* \in \arg \min_i \frac{f(X_i)}{g(X_i)} $
+		\State Return $ \hat{X} \leftarrow X_{i^*} $
+	\end{algorithmic}
+\end{algorithm}
