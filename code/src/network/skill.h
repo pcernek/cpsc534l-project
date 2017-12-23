@@ -11,19 +11,25 @@
 namespace hh
 {
 
-struct skill
-{
-    skill() = delete;
+typedef id_t skill;
+/**
+ * If this funny business persists, it's due to an experimental change intended to be as backward-compatible as possible.
+ */
+typedef skill skill_t;
 
-    const id_t id;
+//struct skill
+//{
+//    skill() = delete; // Prevent this struct from being instantiated with default values for its members
+//
+//    const id_t id;
+//
+//    bool operator==(const skill &other) const
+//    {
+//        return id == other.id;
+//    }
+//};
 
-    bool operator==(const skill &other) const
-    {
-        return id == other.id;
-    }
-};
-
-typedef std::shared_ptr<const skill> skill_t;
+//typedef std::shared_ptr<const skill> skill_t;
 
 }
 

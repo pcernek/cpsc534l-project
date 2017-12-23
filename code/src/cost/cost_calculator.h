@@ -8,23 +8,33 @@
 namespace hh
 {
 
+/**
+ * Interface class representing the functionality of calculating the communication
+ * cost of a team
+ */
 class cost_calculator
 {
 
 public:
 
     /**
-     * Calculate the cost of the subgraph induced by the given set of nodes.
+     * Calculate the cost of the given set of nodes.
      * @param nodes
      * @return
      */
     virtual value_t calc_cost(const node_array_t &nodes) const = 0;
 
-    virtual value_t calc_marginal_cost(const node_t &n, const node_array_t &nodes) const
+    /**
+     * NOTE: Assumes nodes does not contain target_node
+     * @param target_node
+     * @param nodes
+     * @return
+     */
+    virtual value_t calc_marginal_cost(const node_t &target_node, const node_array_t &nodes) const
     {
         const auto cost_without = calc_cost(nodes);
         node_array_t augmented_nodes(nodes);
-        augmented_nodes.push_back(n);
+        augmented_nodes.push_back(target_node);
         const auto cost_with = calc_cost(augmented_nodes);
         return cost_with - cost_without;
     }

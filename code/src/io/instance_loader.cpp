@@ -25,6 +25,7 @@ instance instance_loader::load_instance_from_file(const std::string &filename)
     stream_next_line(in_file) >> num_nodes;
     stream_next_line(in_file) >> num_skills;
 
+    // TODO: (Testing) verify that all this gets parsed and loaded properly.
     const auto all_skills = generate_all_skills(num_skills);
     const auto edge_weights = load_edge_costs(in_file, num_nodes);
     const auto all_nodes = load_nodes(in_file, num_nodes, all_skills);
@@ -51,7 +52,7 @@ std::istringstream instance_loader::stream_next_line(std::ifstream &in_file)
     }
     while (line.empty() || line[0] == '#' || line[0] == '\n');
 
-    DEBUG("Returning line: " << line);
+//    DEBUG("Returning line: " << line);
 
     return std::istringstream(line);
 }
@@ -109,7 +110,8 @@ task_distribution_t instance_loader::load_distribution(std::ifstream &in_file, s
 
     // TODO: Currently, this does not actually read in a distribution. Needs to be improved.
     std::vector<skill_t> dummy_skills;
-    dummy_skills.push_back(std::make_shared<skill>(skill{num_skills - 1}));
+//    dummy_skills.push_back(std::make_shared<skill>(skill{num_skills - 1}));
+    dummy_skills.push_back(skill_t{num_skills - 1});
 
     task_t t = std::unordered_set<skill_t>(dummy_skills.begin(), dummy_skills.end());
     task_distribution_t td = std::make_shared<constant_task_distribution>(t);
@@ -145,7 +147,8 @@ std::vector<skill_t> instance_loader::generate_all_skills(size_t num_skills)
 
     for (id_t i = 0; i < all_skills.size(); i++)
     {
-        all_skills[i] = std::make_shared<skill>(skill{i});
+//        all_skills[i] = std::make_shared<skill>(skill{i});
+        all_skills[i] = skill_t{i};
     }
 
     return all_skills;

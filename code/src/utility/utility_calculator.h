@@ -19,23 +19,29 @@ class utility_calculator
 public:
 
     virtual value_t calc_utility(const node_array_t &nodes) const = 0;
-    
-    virtual value_t calc_marginal_utility(const node_t &n, const node_array_t &nodes) const
+
+    /**
+     * NOTE: Assumes nodes does not contain the target node
+     * @param target_node
+     * @param nodes
+     * @return
+     */
+    virtual value_t calc_marginal_utility(const node_t &target_node, const node_array_t &nodes) const
     {
         const auto util_without = calc_utility(nodes);
         node_array_t augmented_nodes(nodes);
-        augmented_nodes.push_back(n);
+        augmented_nodes.push_back(target_node);
         const auto util_with = calc_utility(augmented_nodes);
         return util_with - util_without;
     }
 
-    virtual bool has_zero_marginal_utility(const node_t &n, const node_array_t &nodes) const
+    virtual bool has_zero_marginal_utility(const node_t &target_node, const node_array_t &nodes) const
     {
         const auto util_without = calc_utility(nodes);
         node_array_t augmented_nodes(nodes);
-        augmented_nodes.push_back(n);
+        augmented_nodes.push_back(target_node);
         const auto util_with = calc_utility(augmented_nodes);
-        return util_with - util_without < (util_without * NEGLIGIBLE_FRACTION);
+        return util_with - util_without < (util_without * NEGLIGIBLE_FRACTION_FOR_MARGINAL_GAIN);
     }
 
 };

@@ -2,6 +2,7 @@
 // Created by paul on 22/12/17.
 //
 
+#include <messages.h>
 #include "expected_coverage_calculator.h"
 
 using namespace hh;
@@ -43,6 +44,7 @@ size_t expected_coverage_calculator::calc_intersect_size(const std::unordered_se
             intersect_size++;
         }
     }
+    DEBUG("Intersect size: " << intersect_size);
     return intersect_size;
 }
 

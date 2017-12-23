@@ -15,7 +15,7 @@ int main() {
     DEBUG("Starting in debug mode");
     const std::string fname = "../res/example1.tf";
     const instance tf = instance_loader::load_instance_from_file(fname);
-    INFO("Done reading from file!");
+    INFO("Finished reading instance from file!");
 
     utility_calculator_t uc = std::make_shared<expected_coverage_calculator>(tf.T);
     cost_calculator_t cc = std::make_shared<edge_weight_summer>(tf.G);

@@ -3,6 +3,7 @@
 # Number of skills
 5
 # Matrix of pairwise edge costs
+# Note that this represents a directed graph, though it need not
 9 6 3 5
 3 1 2 7
 5 5 5 7

@@ -12,6 +12,9 @@
 namespace hh
 {
 
+/**
+ * Exposes a static interface for loading a problem instance from file.
+ */
 class instance_loader
 {
 

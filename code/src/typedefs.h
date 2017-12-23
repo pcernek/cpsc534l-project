@@ -13,8 +13,14 @@
 
 namespace hh {
 
+/**
+ * A type encapsulating both costs and utilities, and ratios thereof.
+ */
 typedef double value_t;
 
+/**
+ * A type used to give (indexable) ids to various objects.
+ */
 typedef unsigned long id_t;
 
 }

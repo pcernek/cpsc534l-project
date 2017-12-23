@@ -2,50 +2,43 @@
 // Created by paul on 22/12/17.
 //
 
-#ifndef HEADHUNTER_HEADHUNTER_SOLVER_H
-#define HEADHUNTER_HEADHUNTER_SOLVER_H
+#ifndef HEADHUNTER_TOP_K_SOLVER_H
+#define HEADHUNTER_TOP_K_SOLVER_H
 
 #include <typedefs.h>
 #include <network/graph.h>
 #include <task/task_distribution.h>
-#include <utility/utility_calculator.h>
-#include <cost/cost_calculator.h>
 
 #include <utility>
+#include "ratio_solver.h"
 
 namespace hh
 {
 
-class top_k_solver
+/**
+ * Interface class encapsulating the functionality of any solver of the problem of picking the "top k"
+ * most valuable nodes from amongst a set of candidate nodes, where value is defined generically as 
+ * utility divided by cost
+ */
+class top_k_solver : public ratio_solver
 {
 
 public:
 
-    top_k_solver(utility_calculator_t uc, cost_calculator_t cc) :
-            uc_(std::move(uc)), cc_(std::move(cc))
-    {
+    using ratio_solver::ratio_solver;
 
-    }
-
+    /**
+     * The actual function that solves an instance of the top-k problem
+     * @param candidates - candidates from which to choose the top k
+     * @param all_nodes - the other nodes to consider when calculating cost and utility
+     * @param k - the number of nodes to choose
+     * @return the top k most valuable nodes
+     */
     virtual node_array_t top_k(node_array_t candidates, const node_array_t &all_nodes, size_t k) const = 0;
-
-    virtual value_t calc_value(const node_array_t &nodes) const
-    {
-        return uc_->calc_utility(nodes) / cc_->calc_cost(nodes);
-    }
-
-    virtual value_t calc_marginal_value(const node_t &n, const node_array_t &nodes) const
-    {
-        return uc_->calc_marginal_utility(n, nodes) / cc_->calc_marginal_cost(n, nodes);
-    }
-
-protected:
-    const utility_calculator_t uc_;
-    const cost_calculator_t cc_;
 
 };
 
 
 }
 
-#endif //HEADHUNTER_HEADHUNTER_SOLVER_H
+#endif //HEADHUNTER_TOP_K_SOLVER_H
