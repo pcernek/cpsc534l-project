@@ -1,0 +1,71 @@
+We base our approach off of \cite{bai2016algorithms}, in which are given guarantees for approximation algorithms to optimize the ratio of submodular functions.
+Formally, the class of problem they address has the following form:
+
+\begin{problem}
+	\label{prob:RS-min}
+	\[ \underset{\emptyset \subset X \subseteq V}{\min} \frac{f(X)}{g(X)}
+	\]
+\end{problem}
+
+where $ f $ and $ g $ are monotone non-decreasing submodular functions.
+For convenience, as in \cite{bai2016algorithms}, we use the shorthand RS (short for ratio of submodular functions) to denote any objective that has the form $ \frac{f(A)}{g(A)} $.
+
+\begin{property}
+	\label{prop:mod-f-submod-g}
+	Modular $ f $ and submodular $ g $
+\end{property}
+
+When $ f $ is modular and $ g $ is submodular, they show that the natural greedy algorithm (explicitly formulated as Algorithm \ref{alg:greed-ratio}) gives the following approximation:
+\begin{equation}
+	\label{eq:greedy-approx}
+	\frac{f(\hat{X})}{g(\hat{X})} \leq \frac{e}{e - 1} \frac{f(X^*)}{g(X^*)}
+\end{equation}
+ 
+\input{algorithms/greedy}
+ 
+\begin{property}
+	\label{prop:submod-f-mod-g}
+	Submodular $ f $ and modular $ g $
+\end{property}
+Conversely, for submodular $ f $ and modular $ g $, the authors leverage the relationship between RS minimization, and the minimization of the difference of submodular functions (DS). Formally, DS minimization may be described as the following optimization problem:
+\begin{problem}
+	\label{prob:DS-min}
+	\[
+	\underset{X \subseteq V}{\min} \left[ f(X) - \lambda g(X) \right]
+	\]
+\end{problem}
+for $ \lambda \geq 0 $.
+In \cite{bai2016algorithms}, it is shown that an exact algorithm for DS minimization can be used as a subroutine to solve RS minimization via a binary search scheme, as described in Algorithm \ref{alg:binary-search}.
+This relationship provides the foundation for the following observation, also derived in \cite{bai2016algorithms}:
+\begin{theorem}
+	When $ f $ is submodular and $ g $ is modular, using an exact submodular minimization algorithm as a subroutine, Algorithm \ref{alg:binary-search} provides a $ (1 + \epsilon) $-approximation for RS minimization in $ O(\log(1/\epsilon)) $ calls to the subroutine.
+\end{theorem}
+
+\input{algorithms/binary_search}
+
+Although in general, DS minimization is not tractable \cite{iyer2012algorithms}, it is pointed out in \cite{bai2016algorithms} that, under the conditions of submodular $ f $ and modular $ g $, the DS minimization problem as formulated in Problem \ref{prob:DS-min} becomes an instance of submodular minimization, and hence can be solved exactly optimally in polynomial time.
+
+\subsection*{Implications}
+
+Assume a modular communication cost function.
+For example, the sum of the edge weights of the subgraph induced by the given team is trivially modular.
+
+% TODO: This might be redundant with material from the Problem Statement section.
+Recall that the \textsc{Top-k} problem may be formulated as follows:
+\begin{problem}
+	\label{prob:top-k}
+	\textsc{Top-k}
+	$$ \underset{X \in Candidates}{\min} \frac{cost(X)}{util(X)} $$
+\end{problem}
+Then, the \textsc{Top-k} problem becomes an instance of RS minimization with Property \ref{prop:mod-f-submod-g}, with $ f = cost $ and $ g = util $.
+Hence, with a modular cost function, \textsc{Top-k} may be solved approximately in polynomial time by Algorithm \ref{alg:greed-ratio}, with the guarantee provided in Equation \ref{eq:greedy-approx}.
+
+Likewise, recall that the \textsc{Bottom-k} problem may be formulated as follows:
+\begin{problem}
+	\label{prob:bottom-k}
+	\textsc{Bottom-k}
+	\[ \underset{X \in Candidates}{\min} \frac{util(X)}{cost(X)}
+	\]
+\end{problem}
+In a similar manner, the \textsc{Bottom-k} problem becomes an instance of RS minimization with Propery \ref{prop:submod-f-mod-g}, with $ f = util $ and $ g = cost $.
+It follows that a modular cost function enables \textsc{Bottom-k} to be solved approximately in polynomial time by Algorithm \ref{alg:binary-search}, with a $ (1+\epsilon) $-approximation.

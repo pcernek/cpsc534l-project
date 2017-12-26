@@ -1,0 +1,23 @@
+\begin{algorithm}%[H]
+	\caption{Binary search algorithm for RS minimization }
+	\label{alg:binary-search}
+	\begin{algorithmic}[1]
+		\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+		\renewcommand{\algorithmicensure}{\textbf{Output:}}
+		\Require $ f $, $ g $, $ \epsilon \in \left[0, 1\right) $, and an exact algorithm for DS minimization
+		\Ensure A $ (1 + \epsilon) $-approximate solution for Problem \ref{prob:RS-min}
+		
+		\State Set $ \lambda_{\max} \leftarrow \frac{f(A)}{g(A)} $ for arbitrary $ A \subseteq V $, and $ \lambda_{\min} \leftarrow 0 $
+		\While{ $ \lambda_{\max} > (1 + \epsilon) \lambda_{\min} $ }
+		\State $ \bar{\lambda} \leftarrow \frac{\lambda_{\min} + \lambda_{\max}}{2} $
+		\State $ \hat{X} \leftarrow \arg \min_{X \supset \emptyset} \left[ f(X) - \bar{\lambda} g(X) \right] $
+		\If { $ \frac{f(\hat{X})}{g(\hat{X})} \geq \bar{\lambda} $ }
+		\State $ \lambda_{\min} \leftarrow \bar{\lambda} $
+		\Else
+		\State $ \lambda_{\max} \leftarrow \bar{\lambda} $
+		\EndIf
+		\EndWhile
+		
+		\State Return $ \hat{X} \leftarrow \arg \min_X \left[ f(X) - \bar{\lambda} g(X) \right] $
+	\end{algorithmic}
+\end{algorithm}
