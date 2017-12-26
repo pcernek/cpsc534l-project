@@ -1,14 +1,36 @@
 In this section we formally define the notations and the problem we will be dealing with.
 \subsection{Set-up}
-As stated, in our problem we have a set of people $\hiredset$ who are part of an organization already. Our aim is to find a new set of people $\hireset$ from a candidate set $\candidates$ (clearly $\hireset \subseteq \candidates$) such that adding these new set maximizes the utility of the hire, subject to a budget constraints $k$, i.e. $|\hireset| = k$. The utility of hire depend on two parameters, namely the team which is denoted by graph $\org$ and the task distribution $\tasks$. We present the details about the parameters first and then present the formal definition of the utility.
 
-\subsubsection{Organization graph $\org$}
+\subsubsection{Person and skill}
+
+As stated we consider an existing organization as part of our problem's input. We use the notation $\hiredset$ to denote the set of individuals who are already part of the organization. Additionally a set of candidates are denoted by $\candidates$. Every individual person $p \in \{\hiredset \cup \candidateset\}$, has a set of skills. We use $\skill(p)$, to denote the skills that person $p$ possesses. The skills of a set of persons $\persons$ is $\skill(\persons) = \cup_{p \in \persons} \skill(p)$.
+
+The universe of skills is denoted by the set $\skills = \{ \skill_1, ..., \skill_m \}$, where $m$ denotes total number of skills the universe contains.
+
+\subsubsection{Task Distribution}
+
+A task $\task$ is nothing but the set of skills that are required to complete the task. $\skill_i \in \task$, if $\skill_i$ is required to complete the task $\task$.
+
+In any organization the task requirement often changes. We model this using a task distribution $\tasks$. A task $\
+task \textasciitilde \tasks$, has a probability associated with it. The probability $Pr[\task]$ denotes, the probability by which the organization will be required to complete the task $\task$. Clearly a high probability task brings more importance to the organization. 
+
+\subsubsection{Communication cost and utility}
+
+As stated earlier the individuals are organized in the form of a graph. The nodes of the graph denote the individuals and the edges denotes the communication between two individuals. The edges are weighted, where the weight of an edge denotes the communication cost between the corresponding individuals.
+
+For a subset of individuals, the communication costs can be measured in different ways. For a set of individuals $\persons$, we denote the communication cost as $\cost(\persons)$. In \cite{lappas2009finding}, diameter of the graph and minimum spanning tree (MST) are used as two different communication costs. In many of the subsequent team formation works, these two same measurements are studied. In our paper, however, we start with a simpler cost, which is just the sum of edge weights. We later study the other costs such as diameter and MST. 
+
+Unlike communication cost, the utility of a subset of individuals depend on the task they aim to perform. For a task $\task$, coverage $\cov(\persons,\task)$ is the subset of skills that $\persons$ possess. More formally $\cov(\persons,\task) = |\skill(\persons) \cap \task|$. Utility of the individuals is $\util(\persons,\task) = \frac{\cov(\persons, \task)}{|\task|}$. Now given a task distribution $\tasks$ we have the expected utility of a set of individuals as 
+
+$$\mathbb{E}[\util(\persons,\tasks)] = \sum_{\task \textasciitilde \tasks } Pr[\task] \times \util(\persons, \tasks) $$ \\
+
+\begin{comment}
 The nodes in graph $\org(\nodes, \edges)$, represented by the set $\nodes = \{\hiredset \cup \candidates\}$, denote the people. As can be seen that it includes the people that are present in the organization already $\hiredset$ and the set of candidates $\candidates$. The edge set of graph $\org$ is denoted by $\edges$. An edge $\edge \in \edges$ is weighted, the weight $\weight(\edge)$ denotes the communication cost between the two people which are the endpoints of $\edge$. We assume the weight of all the edges involving even the candidates are known. 
 
-Further we use the notation $\org_{\nodes'}$ to denote the induced sub graph of $\org$ taken over the node set $\nodes'$. 
+Further we use the notation $\org_{\nodes'}$ to denote the induced sub graph of $\org$ taken over the node set $\nodes'$.
+ 
 
-\subsubsection{Task Distribution $\tasks$}
-We assume that the set of tasks are not known beforehand. Instead a probability distribution over the task is defined. $\tasks$ denotes the distribution.
+
 
 \subsubsection{Utility of an hire}
 The utility of the hire depends on the people who are hired and the tasks for which they are hired. Precisely we assume the $\utility(\org_{\nodes'},\task)$ denotes the utility of a node set $\nodes'$, people who are hired, for a task $\task \in \tasks$. The overall utility can then be computed as,
@@ -18,6 +40,36 @@ Given this utility measure, we next proceed to define the expected gain from a p
 $$\gain(\hireset) = \utility(\org_{\hiredset \cup \hireset},\tasks) - \utility(\org_{\hiredset},\tasks) $$
 
 We are now ready to define our problem of hiring a team that maximizes hiring utility.
+\end{comment}
+
+Equipped with all these definitions, we are now ready to formally introduce the problems that we study in this paper.
+
+\subsection{Problems}
+
+We study two specific problems which are relevant from organization's perspective. The first problem is a maximization problem, where the aim is to hire a set of individuals from a candidate set, that would maximize the benefit of the hiring. Conversely we study a minimization problem as well. There the aim is to fire a set of people from the organization such that the impact of the firing is minimal. We present the problems and study their complexity in the subsequent sections.
+
+\subsubsection{Hiring problem}
+
+For this problem we consider as input: an existing organization of people $\hiredset$, a candidate pool $\candidates$ from which further addition to the organization is to be made, a budget $k$ that denotes the maximum number of people that can be hired, clearly $k \< |\candidates|$ and the cost function and communication function as defined above. Formally speaking the problem is as follows.  
 \begin{problem}
-[HireMax] Given $\org = ( \nodes = \{ \hiredset \cup \candidates \}, \edges)$, denoting the set of all people and their communication costs, find a hire set $\hireset$ from a candidate set of hire $\candidates$ under a budget constraint $k$ which implies that $|hireset| = k$, such that adding the hire set to the existing set of hired people $\hiredset$ earns the highest expected gain in utility, $\gain(\hireset)$.
+[HireMax] Given $\hiredset$, communication cost $\cost$ between every pair of individuals and task distribution $\tasks$, hire a set of $X$ of $k$ person (i.e. $|X| = k$) from the candidate pool $\candidates$ such that the ratio $\frac{\util(X, \tasks)}{\cost(X)}$ is maximized.
 \end{problem}
+
+We now show that $HireMax$ is NP-complete.
+\begin{theorem}
+HireMax is NP-complete.
+\end{theorem}
+
+
+
+\subsubsection{Firing problem}
+
+As opposed to the hiring problem, the firing problem takes as input: an existing organization of people $\hiredset$, a budget $k$ that denotes the number of people to be fired, and the cost function and communication function as defined above. The candidates to be fired are clearly the set of people already been hired. Formally speaking the problem is as follows.  
+\begin{problem}
+[MinFire] Given $\hiredset$, communication cost $\cost$ between every pair of individuals and task distribution $\tasks$, fire a set of $X$ of $k$ person (i.e. $|X| = k$) such that the ratio $\frac{\util(X, \tasks)}{\cost(X)}$ is minimized.
+\end{problem}
+
+We now show that $MinFire$ is NP-complete.
+\begin{theorem}
+MinFire is NP-complete.
+\end{theorem}
