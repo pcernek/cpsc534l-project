@@ -3,7 +3,7 @@ In this section we formally define the notations and the problem we will be deal
 
 \subsubsection{Person and skill}
 
-As stated we consider an existing organization as part of our problem's input. We use the notation $\hiredset$ to denote the set of individuals who are already part of the organization. Additionally a set of candidates are denoted by $\candidates$. Every individual person $p \in \{\hiredset \cup \candidateset\}$, has a set of skills. We use $\skill(p)$, to denote the skills that person $p$ possesses. The skills of a set of persons $\persons$ is $\skill(\persons) = \cup_{p \in \persons} \skill(p)$.
+As stated we consider an existing organization as part of our problem's input. We use the notation $\hiredset$ to denote the set of individuals who are already part of the organization. Additionally a set of candidates are denoted by $\candidates$. Every individual person $p \in \{\hiredset \cup \candidates\}$, has a set of skills. We use $\skill(p)$, to denote the skills that person $p$ possesses. The skills of a set of persons $\persons$ is $\skill(\persons) = \cup_{p \in \persons} \skill(p)$.
 
 The universe of skills is denoted by the set $\skills = \{ \skill_1, ..., \skill_m \}$, where $m$ denotes total number of skills the universe contains.
 
@@ -50,7 +50,7 @@ We study two specific problems which are relevant from organization's perspectiv
 
 \subsubsection{Hiring problem}
 
-For this problem we consider as input: an existing organization of people $\hiredset$, a candidate pool $\candidates$ from which further addition to the organization is to be made, a budget $k$ that denotes the maximum number of people that can be hired, clearly $k \< |\candidates|$ and the cost function and communication function as defined above. Formally speaking the problem is as follows.  
+For this problem we consider as input: an existing organization of people $\hiredset$, a candidate pool $\candidates$ from which further addition to the organization is to be made, a budget $k$ that denotes the maximum number of people that can be hired, clearly $k < |\candidates|$ and the cost function and communication function as defined above. Formally speaking the problem is as follows.  
 \begin{problem}
 [HireMax] Given $\hiredset$, communication cost $\cost$ between every pair of individuals and task distribution $\tasks$, hire a set of $X$ of $k$ person (i.e. $|X| = k$) from the candidate pool $\candidates$ such that the ratio $\frac{\util(X, \tasks)}{\cost(X)}$ is maximized.
 \end{problem}
