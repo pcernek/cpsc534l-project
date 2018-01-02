@@ -10,10 +10,16 @@
 
 using namespace hh;
 
-int main() {
+int main(int argc, char* argv[]) {
 
     DEBUG("Starting in debug mode");
-    const std::string fname = "../res/example1.tf";
+    if (argc < 2)
+    {
+        std::cerr << "Error: must have at least 1 command line arg for path to input file " << std::endl;
+        exit(1);
+    }
+    const std::string fname(argv[1]);
+    DEBUG("Loading file " << fname);
     const instance tf = instance_loader::load_instance_from_file(fname);
     INFO("Finished reading instance from file!");
 
