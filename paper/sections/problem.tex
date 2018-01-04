@@ -6,8 +6,8 @@ In this section we formally define the notation and the problem we will be deali
 We consider the input to our problem to include an existing organization.
 We use the notation $\hiredset$ to denote the set of individuals who are already part of the organization.
 Additionally, a set of candidates is denoted by $\candidates$.
-Every individual person $p \in \{\hiredset \cup \candidates\}$ has a set of skills.
-We use $\skill(p)$ to denote the skills of person $p$.
+Every individual person $p \in \{\hiredset \cup \candidates\}$ has a set of skills, a cost to be hired, and a cost to be included in a team (eg a node weight).
+We use $\skill(p)$ to denote the skills of person $p$, $c_H(p)$ as the hiring cost, and $c_T(p)$ as the team cost.
 The skills of a set of persons $\persons$ is $\skill(\persons) = \cup_{p \in \persons} \skill(p)$.
 
 The universe of skills is denoted by the set $\skills = \{ \skill_1, ..., \skill_m \}$.
@@ -17,84 +17,81 @@ The universe of skills is denoted by the set $\skills = \{ \skill_1, ..., \skill
 A task $\task$ is nothing but the set of skills that are required to complete the task.
 We write $\skill_i \in \task$ if $\skill_i$ is required to complete the task $\task$.
 
-Most organizations cannot predict in advance the exact requirements of the tasks they will be required to complete.
+Most organizations cannot predict in advance the exact requirements of the tasks that will be requested.
 We model this uncertainty using a task distribution $\tasks$. 
 A task $\task \sim \tasks$ is associated with a probability.
 Define $Pr[\task]$ to denote the probability with which the organization will be required to complete the task $\task$. 
-As the organization wishes to maximize the number of tasks it completes, it naturally places higher priority on being able to complete high probability tasks.
+%As the organization wishes to maximize the number of tasks it completes, it naturally places higher priority on being able to complete high probability tasks.
 
 \subsubsection{Communication cost and utility}
 
-As stated earlier, the individuals constitute the nodes of a graph whose edges denote communication channels between pairs of individuals.
-The edges are weighted according to the communication cost between the corresponding pair of individuals.
+To take into account the conflicting objectives of maximizing the utility of completing the task and minimizing the communication cost of the given team we define the value of a team to be the ratio of the utility over the cost and maximize this value. Notice that maximizing the ratio of two functions is equivalent to minimizing their reciprocal.  
 
+\subsubsection{Communication Cost}
 For a subset of individuals, the communication costs can be measured in different ways. 
 For a set of individuals $\persons$, we denote the communication cost as $\cost(\persons)$. 
 In \cite{lappas2009finding}, the diameter of the graph and minimum spanning tree (MST) are used as two different communication costs.
 Many of the subsequent team formation papers study these same two measurements.
-In our paper, however, we start with a simpler cost, which is just the sum of edge weights.
-We later study other costs such as diameter and MST. 
+In our paper, however, we start with a simpler cost, which is just the sum of node weights. We chose the sum of node weights as our cost function as it is modular and monotone which is more amenable to analysis with existing techniques. 
 
+\subsubsection{Utility}
 Unlike communication cost, the utility of a subset of individuals depends on the task they aim to perform. 
 For a task $\task$, coverage $\cov(\persons,\task)$ is the subset of skills that $\persons$ possess.
 More formally $\cov(\persons,\task) = |\skill(\persons) \cap \task|$.
 The utility of a group $ \persons $ is $\util(\persons,\task) = \frac{\cov(\persons, \task)}{|\task|}$.
-Now, given a task distribution $\tasks$, we express the expected utility of a group as 
 
-$$\mathbb{E}[\util(\persons,\tasks)] = \sum_{\task \sim \tasks } Pr[\task] \times \util(\persons, \task) $$ \\
+We define the value of a task for a given organization (graph) $G$ as $TF(G,\task) = \max_{\persons \subseteq G}{val(\persons,\task)}$. We can now take the expected valued of a team over the task distribution. Where we define $val(\persons,\task)$ to be $\frac{\util(\persons,\tasks)}{cost(\persons)} $
 
-\begin{comment}
-The nodes in graph $\org(\nodes, \edges)$, represented by the set $\nodes = \{\hiredset \cup \candidates\}$, denote the people. As can be seen that it includes the people that are present in the organization already $\hiredset$ and the set of candidates $\candidates$. The edge set of graph $\org$ is denoted by $\edges$. An edge $\edge \in \edges$ is weighted, the weight $\weight(\edge)$ denotes the communication cost between the two people which are the endpoints of $\edge$. We assume the weight of all the edges involving even the candidates are known. 
+Thus the expected value for the organization over the task distribution can be simplified as follows.
 
-Further we use the notation $\org_{\nodes'}$ to denote the induced sub graph of $\org$ taken over the node set $\nodes'$.
- 
+$$\mathbb{E}[TF(G,\task)] = max_{\persons \subseteq G} \left\{ \frac{\sum_{\task \sim \tasks } Pr[\task] \times \util(\persons, \task)} {\cost(\persons)} \right\} $$ \\
 
-
-
-\subsubsection{Utility of an hire}
-The utility of the hire depends on the people who are hired and the tasks for which they are hired. Precisely we assume the $\utility(\org_{\nodes'},\task)$ denotes the utility of a node set $\nodes'$, people who are hired, for a task $\task \in \tasks$. The overall utility can then be computed as,
-$$\utility(\org_{\nodes'}, \tasks) = \sum_{i} Pr[T_i] \times \utility (\org_{\nodes'}, \task) $$
-
-Given this utility measure, we next proceed to define the expected gain from a possible hire set. Recall $\hireset$ denotes a possible set of hiring. Then the gain of this hire is,
-$$\gain(\hireset) = \utility(\org_{\hiredset \cup \hireset},\tasks) - \utility(\org_{\hiredset},\tasks) $$
-
-We are now ready to define our problem of hiring a team that maximizes hiring utility.
-\end{comment}
+Note that the numerator is a non-negative linear combination of a monotone submodular function and is also submodular.
 
 Equipped with these definitions, we are now ready to formally introduce the problems that we study in this paper.
 
 \subsection{Problems}
 
-
-We study two specific problems relevant to an organization.
-The first problem is a maximization problem, where the aim is to hire a set of individuals from a candidate set, that would maximize the benefit of the hiring.
-The second is a minimization problem, where the aim is to fire a set of people from the organization such that the impact of the firing is minimized.
-In the rest of this section, we define these problems formally and study their complexity.
-
+In this paper we study the hiring problem. That is given a set of candidates and a hiring budget, who do we expect to be the best candidates to hire. 
 \subsubsection{Hiring problem}
 
-For this problem we consider as input: an existing organization of people $\hiredset$, a candidate pool $\candidates$ from which to select new hires to the organization, and a budget $k$ that denotes the maximum number of people that can be hired.
-We use cost and utility functions as defined above, and concern ourselves only with the nontrivial case where $k < |\candidates|$.
-The problem may be formally defined as follows:
+For this problem we consider as input: an existing organization of people $\hiredset$, a candidate pool $\candidates$ from which to select new hires to the organization, and a budget $B$ that denotes the maximum amount that can be spent on hiring candidates.
+We use cost and utility functions as defined above, but define the problem generally as follows:
 \begin{problem}
-[HireMax] Given $\hiredset$, communication cost $\cost$ between every pair of individuals and task distribution $\tasks$, hire a set $X$ of $k$ persons (i.e. $|X| = k$) from the candidate pool $\candidates$ such that the ratio $\frac{\util(X, \tasks)}{\cost(X)}$ is maximized.
+[HireMax] Given $\hiredset$, communication cost $\cost$ between every pair of individuals, a distribution of tasks $\tasks$, a budget $B$.
+
+$$ \max \mathbb{E}[TF(G,\task)]  $$
+$$ G=(\hiredset \setminus \candidates) \cup X \quad c_H(X) \le B \quad X \subseteq C $$
+
+where $c_H(X) = \sum_{x \in X} c_H(x)$ is the hiring cost of the set X.
+
+That is hire a candidate set $X$ that maximizes our organizations expected ability to complete tasks and does not exceed our hiring budget. 
 \end{problem}
 
-We now show that $HireMax$ is NP-complete.
+We now show that $HireMax$ is NP-Hard.
 \begin{theorem}
-HireMax is NP-complete.
+HireMax is NP-Hard.
+
+It is easy to see that to solve this problem we must solve the underlying team formation problem. Even if the underlying team formation problem is restricted to a constant cost function, this problem requires maximizing the coverage function. This is an example of submodular maximization of a monotone function under knapsack constraint, which is known to be NP-Hard.  
 \end{theorem}
 
-\subsubsection{Firing problem}
+\subsubsection{Alternative Formulations}
 
-The firing problem takes as input: an existing organization of people $\hiredset$, a budget $k$ that denotes the number of people to be fired, and the cost and communication functions as defined above. 
-The candidates to be fired are the set of people currently employed. 
-Formally speaking, the problem is the following:
-\begin{problem}
-[MinFire] Given $\hiredset$, communication cost $\cost$ between every pair of individuals and task distribution $\tasks$, fire a set $X$ of $k$ persons (i.e. $|X| = k$) such that the ratio $\frac{\util(X, \tasks)}{\cost(X)}$ is minimized.
-\end{problem}
+From the formulation of the hiring problem three alternative problems naturally present themselves. The most natural of these is the problem of firing existing employees presented below.  
 
-We now show that $MinFire$ is NP-complete.
-\begin{theorem}
-MinFire is NP-complete.
-\end{theorem}
+Given an organization $\hireset$, a candidate pool $\candidates$ (often the whole organization), and a quota $Q$ we aim to fire a subset  of $\candidates$ such that we free up at least $Q$ of our hiring budget and we do the least damage to the organizations ability to form teams.  
+
+$$ \max \mathbb{E}[TF(G,\task)] $$
+$$ G = (\hiredset \setminus X) \quad Q \le c_H(X) \quad  X \subseteq C $$
+
+Alternatively we could be trying to assassinate some subset of the $\candidates$ so that the most damage is done:
+
+$$ \min \mathbb{E}[TF(G,\task)] $$
+$$ G = (\hiredset \setminus X) \quad c_H(X) \le B \quad  X \subseteq C $$
+
+Or the last problem that follows by symmetry, but does not have a strong motivation
+
+$$ \min \mathbb{E}[TF(G,\task)] $$
+$$ G = (\hiredset \setminus \candidates) \cup X \quad Q \le c_H(X) \quad  X \subseteq C $$
+
+Where we must hire a given quota of people that least benefits the company. 
