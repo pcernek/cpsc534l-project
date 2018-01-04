@@ -1,27 +1,26 @@
-Hiring effectively is one of the key challenges faced by any organization.
-There are two possibly conflicting optimization issues that a hiring committee faces when considering a candidate: 
+Hiring effective candidates is one of the key challenges faced by any organization.
+There are two possibly conflicting optimization issues that a hiring committee faces when considering who to hire: 
 (i) the value added to the organization in terms of the candidate's raw skills and competencies, and 
 (ii) how well the candidate can collaborate with the existing members of the organization.
 The first consideration depends on the complementarity between the candidate's skills and the tasks that the organization aims to complete. 
 This is called \textit{coverage} in the team formation literature.
 The second consideration is commonly known as the \textit{communication cost}.
 
-In their seminal paper, Lappas et al. \cite{lappas2009finding} first introduced the problem of \textit{team formation}, where they modelled a team as a graph.
+In their seminal paper, Lappas et al. \cite{lappas2009finding} first introduced the \textit{team formation} problem, where they modelled a the organization as an undirected graph and a team as an induced subgraph of the organization.
 They proposed two graph distance-based measures of communication cost, namely the diameter and minimum spanning tree of the graph. 
 They showed that the team formation problem is NP-complete for both types of communication costs. 
 Subsequent work  \cite{sozio2010community, kargar2011discovering, anagnostopoulos2010power, rangapuram2013towards} has explored more realistic formulations of the team  formation problem.
 In \cite{bhowmik2014submodularity}, a submodular variant of the team formation problem is proposed, enabling an approximation guarantee for a simulated annealing algorithm.
 
-Our work distinguishes itself from these previous studies in that we consider the problem of adding a new member to an already-existing team, whereas the other works concern themselves with forming teams from scratch.
+Our work distinguishes itself from these previous studies in that we consider the problem of adding a new member to an already-existing organization, whereas the other works concern themselves with forming a single team from a fixed organization for a given task.
 Our problem can thus be better viewed as a \textit{hiring problem}. Moreover, we consider the scenario where the set of tasks to complete is not known with certainty.
-In \cite{anagnostopoulos2012online}, authors assume that tasks arrive in an online manner.
-Teams are formed such that most of the tasks can be accomplished.
-In our problem formulation, we assume that tasks are drawn from a known distribution.
-We want to hire candidates so as to maximize the resulting team's ability to complete tasks drawn from the distribution.
+In \cite{anagnostopoulos2012online}, it is assumed that tasks arrive in an online manner, and teams are formed on the fly.
+In our problem formulation, we assume that the organization also forms teams online for an infinite stream of tasks drawn from a known probability distribution.
+We want to hire candidates so as to maximize the resulting team's ability to complete tasks drawn from this distribution.
 
 To understand this better, refer to Figure \ref{fig:hpo}.
-Our problem has three inputs: an existing team, a pool of candidates, and a task distribution. 
-Our aim is to find a candidate from the pool that maximizes the expected coverage, while adding minimum communication overhead. 
+Our problem has three inputs: an existing organization, a pool of candidates, and a task distribution. 
+Our goal is to find a set of candidates from the pool that maximizes the expected coverage while adding minimum communication overhead, and does not exceed a hiring budget. 
 \begin{figure}
 \centering
 \begin{small}
@@ -33,16 +32,14 @@ Our aim is to find a candidate from the pool that maximizes the expected coverag
 
 In this paper, we show that the hiring problem is NP-hard.
 However, we provide two realistic communication and coverage functions such that both are submodular.
-When both these functions are submodular, we can design a greedy approximation \cite{bai2016algorithms} that preserves a $1 - \frac{1}{e}$ - approximation.
 Thus, to summarize, our contributions are the following:
 
 \begin{enumerate}
 \item We formulate the novel \textit{hiring problem}, which draws its inspiration from the team formation literature.
 
 \item We show that the problem is NP-hard. 
-However, under certain communication and coverage functions, efficient approximation algorithms can be designed for the problem.
 
-\item By leveraging the work of \cite{bai2016algorithms}, we design a greedy algorithm that preserves a $1 - \frac{1}{e}$ approximation ratio.
+%\item By leveraging the work of \cite{bai2016algorithms}, we design a greedy algorithm that preserves a $1 - \frac{1}{e}$ approximation ratio.
 
 \item Through extensive experiments on real world datasets, we empirically show the superiority of our approach over existing baselines. 
 
