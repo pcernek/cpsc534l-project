@@ -42,14 +42,12 @@ node_array_t greed_ratio_top_k_solver::nodes_with_positive_marginal_utility(cons
 }
 
 node_t
-greed_ratio_top_k_solver::find_best_node(const node_array_t &candidate_nodes, const node_array_t &all_nodes) const
+greed_ratio_top_k_solver::find_best_node(const node_array_t &candidate_nodes, const node_array_t &cur_solution) const
 {
     std::vector<value_t> inverse_marginal_values(candidate_nodes.size());
     std::transform(candidate_nodes.begin(), candidate_nodes.end(), inverse_marginal_values.begin(),
-                   [this, all_nodes](const node_t &n) {
-                       // TODO: This is a bug -- the functions below this assume that the second argument does not contain the first.
-                       // TODO: We probably want the marginal value to be computed with respect to (all_nodes) [minus] (candidate_nodes) [plus] (nodes we've added so far via greedy).
-                        return this->calc_inverse_marginal_value(n, all_nodes);
+                   [this, cur_solution](const node_t &n) {
+                       return this->calc_inverse_marginal_value(n, cur_solution);
                    });
 
     value_t min_so_far = MAX_VALUE;

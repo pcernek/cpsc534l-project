@@ -32,7 +32,7 @@ public:
 private:
     node_array_t nodes_with_positive_marginal_utility(const node_array_t &nodes) const;
 
-    node_t find_best_node(const node_array_t &candidate_nodes, const node_array_t &all_nodes) const;
+    node_t find_best_node(const node_array_t &candidate_nodes, const node_array_t &cur_solution) const;
 
 };
 
