@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 11)
 # Instructions for building a static library containing main functionality of program
 include(src.cmake)
 
-# Instructions for building main executable
+# Instructions for building main executables
 include(main.cmake)
 
 # Instructions for building tests

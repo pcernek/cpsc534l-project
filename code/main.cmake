@@ -1,6 +1,9 @@
 # Create target to for executable to run the main program
-set(MAIN_EXEC run_${PROBLEM_NAME})
 
-add_executable(${MAIN_EXEC} main.cpp)
+set(PROGRAM_DIR main)
 
-target_link_libraries(${MAIN_EXEC} ${SRC_LIB})
+add_executable(run_whole_team_greed_ratio ${PROGRAM_DIR}/run_whole_team_greed_ratio.cpp)
+target_link_libraries(run_whole_team_greed_ratio ${SRC_LIB})
+
+add_executable(run_rs_mc ${PROGRAM_DIR}/run_rs_mc.cpp)
+target_link_libraries(run_rs_mc ${SRC_LIB})
