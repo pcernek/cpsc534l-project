@@ -50,7 +50,9 @@ size_t expected_coverage_calculator::calc_intersect_size(const std::unordered_se
 
 value_t expected_coverage_calculator::calc_utility(const node_array_t &nodes) const
 {
-    return distribution_->calc_expectation_over_tasks([nodes](const task_t &t){
-        return calc_coverage(nodes, t);
+    auto u = distribution_->calc_expectation_over_tasks([nodes](const task_t &t){
+        auto cov = calc_coverage(nodes, t);
+        return cov;
     });
+    return u;
 }

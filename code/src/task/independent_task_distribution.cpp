@@ -5,6 +5,7 @@
 #include "independent_task_distribution.h"
 
 #include <cmath>
+#include <messages.h>
 
 using namespace hh;
 
@@ -36,5 +37,6 @@ double independent_task_distribution::calc_log_likelihood(const task_t &t) const
 
 double independent_task_distribution::calc_expectation_over_tasks(std::function<double(const task_t &t)> func) const
 {
-    return 0;
+    WARN("Call to unimplemented function");
+    throw std::exception();
 }

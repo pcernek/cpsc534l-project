@@ -27,3 +27,15 @@ double constant_task_distribution::calc_log_likelihood(const task_t &t) const
     }
     return 0;
 }
+
+double constant_task_distribution::calc_likelihood(const task_t &t) const
+{
+    for (const skill_t  &s : t)
+    {
+        if (constant_task_.count(s) == 0)
+        {
+            return 0;
+        }
+    }
+    return 1;
+}

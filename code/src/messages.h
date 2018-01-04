@@ -7,11 +7,11 @@
 
 #include <iostream>
 
+#include "debug.h"
+
 #define INFO(args) std::cout << args << std::endl;
 
 #define WARN(args) std::cerr << "WARNING: " << args << std::endl;
-
-//#define HEADHUNTER_DEBUG
 
 #ifdef HEADHUNTER_DEBUG
     #define DEBUG(args) std::cout << args << std::endl;

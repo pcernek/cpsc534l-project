@@ -20,27 +20,27 @@ instance instance_loader::load_instance_from_file(const std::string &filename)
         throw std::exception();
     }
 
-    size_t num_nodes, num_skills, num_candidates, k;
+    size_t num_nodes, num_skills, num_candidates;
+    value_t budget;
 
     stream_next_line(in_file) >> num_nodes;
     stream_next_line(in_file) >> num_skills;
 
-    // TODO: (Testing) verify that all this gets parsed and loaded properly.
     const auto all_skills = generate_all_skills(num_skills);
     const auto edge_weights = load_edge_costs(in_file, num_nodes);
     const auto all_nodes = load_nodes(in_file, num_nodes, all_skills);
 
     const auto g = std::make_shared<graph>(graph{edge_weights, all_nodes});
 
-    const auto td = load_distribution(in_file, num_skills);
+    const auto td = load_constant_distribution(in_file, num_skills);
 
     stream_next_line(in_file) >> num_candidates;
     DEBUG("Num candidates: " << num_candidates);
     const auto candidates = load_candidates(in_file, num_candidates, all_nodes);
 
-    stream_next_line(in_file) >> k;
+    stream_next_line(in_file) >> budget;
 
-    return instance{g, td, candidates, k};
+    return instance{g, td, candidates, budget};
 }
 
 std::istringstream instance_loader::stream_next_line(std::ifstream &in_file)
@@ -98,23 +98,36 @@ node_array_t instance_loader::load_nodes(std::ifstream &in_file,
             cur_skill = all_skills[cur_skill_id];
         }
 
-        all_nodes[i] = std::make_shared<node>(node{i, cur_skills});
+        all_nodes[i] = std::make_shared<node>(node{i, cur_skills, DEFAULT_HIRING_COST, DEFAULT_TEAM_INCLUSION_COST});
     }
 
     return all_nodes;
 }
 
-task_distribution_t instance_loader::load_distribution(std::ifstream &in_file, size_t num_skills)
+task_distribution_t instance_loader::load_constant_distribution(std::ifstream &in_file, size_t num_skills, double threshold)
 {
-    stream_next_line(in_file);
+    std::istringstream task_dist_reader = stream_next_line(in_file);
+    std::vector<skill_t> skills;
+    for (id_t i = 0; i < num_skills; i++)
+    {
+        double v;
+        task_dist_reader >> v;
+        if (v >= threshold)
+        {
+            skills.push_back(skill_t{i});
+        }
+    }
 
-    // TODO: Currently, this does not actually read in a distribution. Needs to be improved.
-    std::vector<skill_t> dummy_skills;
-//    dummy_skills.push_back(std::make_shared<skill>(skill{num_skills - 1}));
-    dummy_skills.push_back(skill_t{num_skills - 1});
-
-    task_t t = std::unordered_set<skill_t>(dummy_skills.begin(), dummy_skills.end());
+    task_t t{skills.begin(), skills.end()};
     task_distribution_t td = std::make_shared<constant_task_distribution>(t);
+
+    std::ostringstream oss;
+    for(const auto &skill : t)
+    {
+        oss << skill << " ";
+    }
+    DEBUG("Loaded constant task distribution over the following skills:")
+    DEBUG(oss.str());
 
     return td;
 }
@@ -147,7 +160,6 @@ std::vector<skill_t> instance_loader::generate_all_skills(size_t num_skills)
 
     for (id_t i = 0; i < all_skills.size(); i++)
     {
-//        all_skills[i] = std::make_shared<skill>(skill{i});
         all_skills[i] = skill_t{i};
     }
 

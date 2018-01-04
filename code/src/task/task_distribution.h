@@ -34,8 +34,7 @@ public:
 
     virtual double calc_log_likelihood(const task_t &t) const = 0;
 
-
-    // TODO: This class is a work in progress and can be filled in with a simple `calc_likelihood` function, for example.
+    virtual double calc_likelihood(const task_t &t) const = 0;
 };
 
 typedef std::shared_ptr<const task_distribution> task_distribution_t;

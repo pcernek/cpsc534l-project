@@ -19,7 +19,8 @@ namespace hh
  * Note that "top-k" corresponds to "give me the top k most valuable employees in the network
  * (given the task distribution)"
  *
- * TODO: Currently doesn't specify whether it's top-k or bottom-k. Should we add this?
+ * The exact nature of the optimization routine (max hire, min fire, etc.) to be performed on this
+ * instance is intentionally left unspecified.
  */
 struct instance
 {
@@ -37,9 +38,9 @@ struct instance
     const node_array_t candidates;
 
     /**
-     * The 'k' in either "top-k" or "bottom-k"
+     * Budget with which to hire
      */
-    const size_t k;
+    const value_t budget;
 };
 
 }
