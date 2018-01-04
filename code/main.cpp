@@ -5,6 +5,7 @@
 #include <utility/expected_coverage_calculator.h>
 #include <cost/edge_weight_summer.h>
 #include <messages.h>
+#include <cost/team_inclusion_cost_adder.h>
 #include "instance.h"
 #include "io/instance_loader.h"
 
@@ -24,14 +25,14 @@ int main(int argc, char* argv[]) {
     INFO("Finished reading instance from file!");
 
     utility_calculator_t uc = std::make_shared<expected_coverage_calculator>(tf.T);
-    cost_calculator_t cc = std::make_shared<edge_weight_summer>(tf.G);
+    cost_calculator_t cc = std::make_shared<team_inclusion_cost_adder>(tf.G);
 
     std::unique_ptr<top_k_solver> solver(new greed_ratio_top_k_solver(uc, cc));
 
-    const auto &best = solver->top_k(tf.candidates, tf.G->nodes, tf.k);
+    const auto &best = solver->top_k(tf.candidates, tf.G->nodes, tf.budget);
 
 
-    INFO("Top " << tf.k << " candidates: ");
+    INFO("Top " << tf.budget << " candidates: ");
     for (const auto &c : best)
     {
         INFO(std::to_string(c->id));

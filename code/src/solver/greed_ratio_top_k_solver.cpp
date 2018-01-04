@@ -8,20 +8,15 @@
 
 using namespace hh;
 
-node_array_t greed_ratio_top_k_solver::top_k(node_array_t candidate_nodes, const node_array_t &all_nodes, size_t k) const
+node_array_t greed_ratio_top_k_solver::top_k(node_array_t candidate_nodes, const node_array_t &all_nodes,
+                                             value_t budget) const
 {
-    if (k > candidate_nodes.size())
-    {
-        WARN("Value of k given (" << k << ") exceeds number of candidate nodes (" << candidate_nodes.size() << ")");
-        return candidate_nodes;
-    }
-
-    DEBUG("Now running greed ratio to find top " << k << " candidates");
+    DEBUG("Now running greed ratio to find top " << budget << " candidates");
 
     std::vector<value_t> solution_values;
     node_array_t cur_candidate_solution;
 
-    while (!candidate_nodes.empty() && cur_candidate_solution.size() < k)
+    while (!candidate_nodes.empty() && cur_candidate_solution.size() < budget)
     {
         candidate_nodes = nodes_with_positive_marginal_utility(candidate_nodes);
         // This is the greedy part

@@ -25,5 +25,5 @@
 2
 # Indices of the candidates
 2 3
-# Number of top candidates to pick
+# Budget
 2

@@ -113,7 +113,7 @@ def generate_problem_instance(dblp_fname, out_fname, candidate_ids, k):
     tfw.write(str(len(candidate_ids)))
     tfw.write_comment("Indices of the candidates")
     tfw.write(' '.join([str(i) for i in candidate_ids]))
-    tfw.write_comment("Number of top candidates to pick")
+    tfw.write_comment("Budget")
     tfw.write(str(k))
 
 
@@ -122,7 +122,7 @@ def main():
   parser.add_argument('--input', required=True, help='xml file containing a dblp element')
   parser.add_argument('--output', required=True, help='file to which to write the instance of hiring problem')
   parser.add_argument('--candidate-ids', required=True, type=int, nargs='+', help='the ids of candidates to consider')
-  parser.add_argument('--k', type=int, help='number of top candidates to select', default=1)
+  parser.add_argument('--budget', type=float, default=1)
 
   args = parser.parse_args()
   generate_problem_instance(args.input, args.output, args.candidate_ids, args.k)

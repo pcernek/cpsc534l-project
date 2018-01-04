@@ -20,7 +20,8 @@ instance instance_loader::load_instance_from_file(const std::string &filename)
         throw std::exception();
     }
 
-    size_t num_nodes, num_skills, num_candidates, k;
+    size_t num_nodes, num_skills, num_candidates;
+    value_t budget;
 
     stream_next_line(in_file) >> num_nodes;
     stream_next_line(in_file) >> num_skills;
@@ -38,9 +39,9 @@ instance instance_loader::load_instance_from_file(const std::string &filename)
     DEBUG("Num candidates: " << num_candidates);
     const auto candidates = load_candidates(in_file, num_candidates, all_nodes);
 
-    stream_next_line(in_file) >> k;
+    stream_next_line(in_file) >> budget;
 
-    return instance{g, td, candidates, k};
+    return instance{g, td, candidates, budget};
 }
 
 std::istringstream instance_loader::stream_next_line(std::ifstream &in_file)
@@ -98,7 +99,7 @@ node_array_t instance_loader::load_nodes(std::ifstream &in_file,
             cur_skill = all_skills[cur_skill_id];
         }
 
-        all_nodes[i] = std::make_shared<node>(node{i, cur_skills});
+        all_nodes[i] = std::make_shared<node>(node{i, cur_skills, DEFAULT_HIRING_COST, DEFAULT_TEAM_INCLUSION_COST});
     }
 
     return all_nodes;
@@ -113,7 +114,7 @@ task_distribution_t instance_loader::load_distribution(std::ifstream &in_file, s
 //    dummy_skills.push_back(std::make_shared<skill>(skill{num_skills - 1}));
     dummy_skills.push_back(skill_t{num_skills - 1});
 
-    task_t t = std::unordered_set<skill_t>(dummy_skills.begin(), dummy_skills.end());
+    task_t t{dummy_skills.begin(), dummy_skills.end()};
     task_distribution_t td = std::make_shared<constant_task_distribution>(t);
 
     return td;

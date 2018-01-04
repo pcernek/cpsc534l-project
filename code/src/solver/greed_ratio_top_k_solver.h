@@ -27,7 +27,7 @@ public:
 
     using top_k_solver::top_k_solver;
 
-    node_array_t top_k(node_array_t candidate_nodes, const node_array_t &all_nodes, size_t k) const override;
+    node_array_t top_k(node_array_t candidate_nodes, const node_array_t &all_nodes, value_t budget) const override;
 
 private:
     node_array_t nodes_with_positive_marginal_utility(const node_array_t &nodes) const;

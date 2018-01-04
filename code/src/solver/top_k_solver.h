@@ -31,10 +31,10 @@ public:
      * The actual function that solves an instance of the top-k problem
      * @param candidates - candidates from which to choose the top k
      * @param all_nodes - the other nodes to consider when calculating cost and utility
-     * @param k - the number of nodes to choose
+     * @param budget - the maximum feasible total cost of new hires
      * @return the top k most valuable nodes
      */
-    virtual node_array_t top_k(node_array_t candidates, const node_array_t &all_nodes, size_t k) const = 0;
+    virtual node_array_t top_k(node_array_t candidates, const node_array_t &all_nodes, value_t budget) const = 0;
 
 };
 

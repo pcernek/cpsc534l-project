@@ -37,9 +37,9 @@ struct instance
     const node_array_t candidates;
 
     /**
-     * The 'k' in either "top-k" or "bottom-k"
+     * Budget with which to hire
      */
-    const size_t k;
+    const value_t budget;
 };
 
 }
