@@ -20,7 +20,7 @@ node_array_t greed_ratio_top_k_solver::top_k(node_array_t candidate_nodes, const
     {
         candidate_nodes = nodes_with_positive_marginal_utility(candidate_nodes);
         // This is the greedy part
-        auto best_node = find_best_node(candidate_nodes, all_nodes);
+        auto best_node = find_best_node(candidate_nodes, cur_candidate_solution);
         cur_candidate_solution.push_back(best_node);
         auto cur_val = calc_value(cur_candidate_solution);
         solution_values.push_back(cur_val);
