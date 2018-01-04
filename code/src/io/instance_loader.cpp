@@ -26,7 +26,6 @@ instance instance_loader::load_instance_from_file(const std::string &filename)
     stream_next_line(in_file) >> num_nodes;
     stream_next_line(in_file) >> num_skills;
 
-    // TODO: (Testing) verify that all this gets parsed and loaded properly.
     const auto all_skills = generate_all_skills(num_skills);
     const auto edge_weights = load_edge_costs(in_file, num_nodes);
     const auto all_nodes = load_nodes(in_file, num_nodes, all_skills);

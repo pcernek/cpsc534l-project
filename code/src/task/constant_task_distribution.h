@@ -20,6 +20,8 @@ public:
 
     double calc_log_likelihood(const task_t &t) const override;
 
+    double calc_likelihood(const task_t &t) const override;
+
 private:
     const task_t constant_task_;
 

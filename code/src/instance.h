@@ -19,7 +19,8 @@ namespace hh
  * Note that "top-k" corresponds to "give me the top k most valuable employees in the network
  * (given the task distribution)"
  *
- * TODO: Currently doesn't specify whether it's top-k or bottom-k. Should we add this?
+ * The exact nature of the optimization routine (max hire, min fire, etc.) to be performed on this
+ * instance is intentionally left unspecified.
  */
 struct instance
 {
