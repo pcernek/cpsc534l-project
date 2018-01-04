@@ -12,18 +12,10 @@ They showed that the team formation problem is NP-complete for both types of com
 Subsequent works \cite{sozio2010community, kargar2011discovering, anagnostopoulos2010power, rangapuram2013towards} explored more realistic formulations of the team  formation problem. They study different cost functions and objectives that model the real world requirements more closely.
 In \cite{bhowmik2014submodularity}, a submodular variant of the team formation problem is proposed, enabling an approximation guarantee for a simulated annealing algorithm.
 
-Our work distinguishes itself by studying the problem of team formation from a organization's point of view. In a typical organization the exact set of tasks is not known beforehand. The tasks vary depending on the progress the organization makes in different fronts. However, the organization does need to make decisions regarding the employees, such as whom to hire or fire based on a possible task assignment in an expected sense. Moreover  
+Our work distinguishes itself by studying the problem of team formation from a organization's point of view. The major challeneges that an organizational setting provide are as follows. In a typical organization we already have a set of people that are part of the organization. The team formation decision needs to consider this existing set while making the choice. Moreover, the exact set of tasks is not known beforehand. The tasks vary depending on the progress the organization makes in different fronts. However, the organization does need to make decisions regarding the employees, such as whom to hire or fire based on those unforeseen tasks. In \cite{anagnostopoulos2012online}, authors assume that tasks arrive in an online manner. Thus once an assignment is made, it cannot be revoked later. In our problem formulation, we assume that tasks are drawn from a distribution. Therefore the tasks comes with a probability associated with them, which was not studied in \cite{anagnostopoulos2012online}. Thirdly, presence of organization opens up several new objectives that are not studied in typical team formation before. Since our tasks are probabilistic, we optimize these objectives under their expected values. 
 
-Our work distinguishes itself from these previous studies in that we consider the problem of adding a new member to an already-existing team, whereas the other works concern themselves with forming teams from scratch.
-Our problem can thus be better viewed as a \textit{hiring problem}. Moreover, we consider the scenario where the set of tasks to complete is not known with certainty.
-In \cite{anagnostopoulos2012online}, authors assume that tasks arrive in an online manner.
-Teams are formed such that most of the tasks can be accomplished.
-In our problem formulation, we assume that tasks are drawn from a known distribution.
-We want to hire candidates so as to maximize the resulting team's ability to complete tasks drawn from the distribution.
-
-To understand this better, refer to Figure \ref{fig:hpo}.
-Our problem has three inputs: an existing team, a pool of candidates, and a task distribution. 
-Our aim is to find a candidate from the pool that maximizes the expected coverage, while adding minimum communication overhead. 
+To understand this better, refer to Figure \ref{fig:hpo}. Our problem has four inputs: an existing organization, a pool of candidates, a task distribution and the objective that we want to maximize. We consider four specific objectives in this work, namely \textit{hiring}, \textit{stupid hiring}, \textit{assassination} and \textit{firing}. 
+ 
 \begin{figure}
 \centering
 \begin{small}
@@ -33,7 +25,7 @@ Our aim is to find a candidate from the pool that maximizes the expected coverag
 \end{small}
 \end{figure} 
 
-In this paper, we show that the hiring problem is NP-hard.
+In this paper, we show that the hiring problem is NP-hard. 
 However, we provide two realistic communication and coverage functions such that both are submodular.
 When both these functions are submodular, we can design a greedy approximation \cite{bai2016algorithms} that preserves a $1 - \frac{1}{e}$ - approximation.
 Thus, to summarize, our contributions are the following:
