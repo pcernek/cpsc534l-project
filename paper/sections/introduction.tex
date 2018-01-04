@@ -6,11 +6,13 @@ The first consideration depends on the complementarity between the candidate's s
 This is called \textit{coverage} in the team formation literature.
 The second consideration is commonly known as the \textit{communication cost}.
 
-In their seminal paper, Lappas et al. \cite{lappas2009finding} first introduced the problem of \textit{team formation}, where they modelled a team as a graph.
+In their seminal paper, Lappas et al. \cite{lappas2009finding} first introduced the problem of \textit{team formation}, where they modelled team in the form of a graph.
 They proposed two graph distance-based measures of communication cost, namely the diameter and minimum spanning tree of the graph. 
 They showed that the team formation problem is NP-complete for both types of communication costs. 
-Subsequent work  \cite{sozio2010community, kargar2011discovering, anagnostopoulos2010power, rangapuram2013towards} has explored more realistic formulations of the team  formation problem.
+Subsequent works \cite{sozio2010community, kargar2011discovering, anagnostopoulos2010power, rangapuram2013towards} explored more realistic formulations of the team  formation problem. They study different cost functions and objectives that model the real world requirements more closely.
 In \cite{bhowmik2014submodularity}, a submodular variant of the team formation problem is proposed, enabling an approximation guarantee for a simulated annealing algorithm.
+
+Our work distinguishes itself by studying the problem of team formation from a organization's point of view. In a typical organization the exact set of tasks is not known beforehand. The tasks vary depending on the progress the organization makes in different fronts. However, the organization does need to make decisions regarding the employees, such as whom to hire or fire based on a possible task assignment in an expected sense. Moreover  
 
 Our work distinguishes itself from these previous studies in that we consider the problem of adding a new member to an already-existing team, whereas the other works concern themselves with forming teams from scratch.
 Our problem can thus be better viewed as a \textit{hiring problem}. Moreover, we consider the scenario where the set of tasks to complete is not known with certainty.
