@@ -30,7 +30,7 @@ public:
     {
         const auto util_without = calc_utility(nodes);
         node_array_t augmented_nodes(nodes);
-        augmented_nodes.push_back(target_node);
+        augmented_nodes.add(target_node);
         const auto util_with = calc_utility(augmented_nodes);
         return util_with - util_without;
     }
@@ -39,7 +39,7 @@ public:
     {
         const auto util_without = calc_utility(nodes);
         node_array_t augmented_nodes(nodes);
-        augmented_nodes.push_back(target_node);
+        augmented_nodes.add(target_node);
         const auto util_with = calc_utility(augmented_nodes);
         return util_with - util_without < (util_without * NEGLIGIBLE_FRACTION_FOR_MARGINAL_GAIN);
     }

@@ -61,7 +61,7 @@ struct graph
             WARN("Node id of " << node_id << " exceeds number of nodes in the graph (" << nodes.size() << ")!");
             throw std::exception();
         }
-        return nodes[node_id];
+        return nodes.array()[node_id];
     }
 
 };

@@ -34,7 +34,7 @@ public:
     {
         const auto cost_without = calc_cost(nodes);
         node_array_t augmented_nodes(nodes);
-        augmented_nodes.push_back(target_node);
+        augmented_nodes.add(target_node);
         const auto cost_with = calc_cost(augmented_nodes);
         return cost_with - cost_without;
     }

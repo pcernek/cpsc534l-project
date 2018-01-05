@@ -78,7 +78,7 @@ edge_weights_t instance_loader::load_edge_costs(std::ifstream &in_file,
 node_array_t instance_loader::load_nodes(std::ifstream &in_file,
                                          size_t num_nodes, const std::vector<skill_t> &all_skills)
 {
-    node_array_t all_nodes(num_nodes);
+    node_array_t all_nodes;
 
     for (id_t i = 0; i < all_nodes.size(); i++)
     {
@@ -98,7 +98,7 @@ node_array_t instance_loader::load_nodes(std::ifstream &in_file,
             cur_skill = all_skills[cur_skill_id];
         }
 
-        all_nodes[i] = std::make_shared<node>(node{i, cur_skills, DEFAULT_HIRING_COST, DEFAULT_TEAM_INCLUSION_COST});
+        all_nodes.add(std::make_shared<node>(node{i, cur_skills, DEFAULT_HIRING_COST, DEFAULT_TEAM_INCLUSION_COST}));
     }
 
     return all_nodes;
@@ -136,19 +136,19 @@ node_array_t instance_loader::load_candidates(std::ifstream &in_file,
                                               size_t num_candidates,
                                               const node_array_t &all_nodes)
 {
-    node_array_t candidates(num_candidates);
+    node_array_t candidates;
 
     std::istringstream iss = stream_next_line(in_file);
 
     id_t candidate_id;
-    for (auto &candidate : candidates) {
+    for (int i = 0; i < num_candidates; i++) {
         iss >> candidate_id;
         if (candidate_id > all_nodes.size())
         {
             WARN("Encountered candidate id greater than number of total nodes!");
             continue;
         }
-        candidate = all_nodes[candidate_id];
+        candidates.add(all_nodes.array()[candidate_id]);
     }
 
     return candidates;

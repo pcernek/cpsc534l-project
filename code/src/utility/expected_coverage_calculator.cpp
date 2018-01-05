@@ -22,7 +22,7 @@ double expected_coverage_calculator::calc_coverage(const node_array_t &nodes, co
 std::unordered_set<skill_t> expected_coverage_calculator::aggregate_skillset(const node_array_t &nodes)
 {
     std::unordered_set<skill_t> skillset{};
-    for (const auto &n : nodes)
+    for (const auto &n : nodes.array())
     {
         for (const auto &s : n->skills)
         {

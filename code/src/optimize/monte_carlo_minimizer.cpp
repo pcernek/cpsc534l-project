@@ -48,11 +48,11 @@ node_array_t monte_carlo_minimizer::draw_sample(const node_array_t &ground_set)
 {
     node_array_t sample;
 
-    for (const node_t &n : ground_set)
+    for (const node_t &n : ground_set.array())
     {
         if (rand_(gen_))
         {
-            sample.push_back(n);
+            sample.add(n);
         }
     }
     return sample;

@@ -21,7 +21,7 @@ public:
     bool satisfied_by(const node_array_t &candidate_solution) const override
     {
         double sum = 0;
-        for (const node_t &n : candidate_solution)
+        for (const node_t &n : candidate_solution.array())
         {
             sum += n->hiring_cost;
         }

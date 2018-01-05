@@ -7,7 +7,10 @@
 
 hh::value_t hh::team_inclusion_cost_adder::calc_cost(const hh::node_array_t &nodes) const
 {
-    return std::accumulate(nodes.begin(), nodes.end(), 0, [](value_t cur_sum, node_t cur_node) {
-        return cur_sum + cur_node->team_inclusion_cost;
-    });
+    value_t sum = 0;
+    for (const node_t &n : nodes.array())
+    {
+        sum += n->team_inclusion_cost;
+    }
+    return sum;
 }

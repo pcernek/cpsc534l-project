@@ -9,10 +9,10 @@ hh::value_t hh::edge_weight_summer::calc_cost(const hh::node_array_t &nodes) con
     value_t sum = 0;
     for (int i = 0; i < nodes.size(); i++)
     {
-        auto node1_id = nodes[i]->id;
+        auto node1_id = nodes.array()[i]->id;
         for (int j = i; j < nodes.size(); j++)
         {
-            auto node2_id = nodes[j]->id;
+            auto node2_id = nodes.array()[j]->id;
             sum += g_->get_edge_weight(node1_id, node2_id);
         }
     }

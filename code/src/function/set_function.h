@@ -22,10 +22,9 @@ public:
 
     value_t marginal_gain(const node_t &n, const node_array_t &nodes) const
     {
-        // TODO: Check if nodes already contains n
         const auto val_without = eval(nodes);
         node_array_t augmented_nodes(nodes);
-        augmented_nodes.push_back(n);
+        augmented_nodes.add(n);
         const auto val_with = eval(augmented_nodes);
         return val_with - val_without;
     }
@@ -34,7 +33,7 @@ public:
     {
         const auto util_without = eval(nodes);
         node_array_t augmented_nodes(nodes);
-        augmented_nodes.push_back(n);
+        augmented_nodes.add(n);
         const auto util_with = eval(augmented_nodes);
         bool has_zero_marginal_utility = util_with - util_without < (util_without * NEGLIGIBLE_FRACTION_FOR_MARGINAL_GAIN);
     }

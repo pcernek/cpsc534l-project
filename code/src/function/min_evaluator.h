@@ -27,10 +27,8 @@ public:
 
     value_t eval(const node_array_t &nodes) const override
     {
-        node_array_t combined;
-        combined.reserve(ground_set_.size() + nodes.size());
-        combined.insert(combined.end(), ground_set_.begin(), ground_set_.end());
-        combined.insert(combined.end(), nodes.begin(), nodes.end());
+        node_array_t combined(ground_set_);
+        combined.add_all(nodes);
 
         auto tmp_result = m_->minimize(f_, combined);
         return tmp_result.first;

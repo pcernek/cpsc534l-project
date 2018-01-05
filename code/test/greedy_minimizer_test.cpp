@@ -26,7 +26,7 @@ TEST_F(greedy_minimizer_test, hire_all)
     for (size_t i = 0; i < num_nodes; i++)
     {
         node n = {i, std::vector<skill_t>(), 0, -1};
-        nodes.push_back(std::make_shared<node>(n));
+        nodes.add(std::make_shared<node>(n));
     }
 
     greedy_minimizer gm(vc);
@@ -48,7 +48,7 @@ TEST_F(greedy_minimizer_test, hire_none)
     for (size_t i = 0; i < num_nodes; i++)
     {
         node n = {i, std::vector<skill_t>(), 0, 1};
-        nodes.push_back(std::make_shared<node>(n));
+        nodes.add(std::make_shared<node>(n));
     }
 
     greedy_minimizer gm(vc);
@@ -82,7 +82,7 @@ TEST_F(greedy_minimizer_test, hire_constrained)
         {
             n = std::make_shared<node>(node{i, std::vector<skill_t>(), 1, -1});
         }
-        nodes.push_back(n);
+        nodes.add(n);
     }
 
     greedy_minimizer gm(bc);

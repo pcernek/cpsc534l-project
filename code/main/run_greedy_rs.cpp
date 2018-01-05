@@ -5,7 +5,6 @@
 #include <iostream>
 #include <memory>
 
-#include <optimize/greed_ratio_top_k_solver.h>
 #include <utility/expected_coverage_calculator.h>
 #include <cost/edge_weight_summer.h>
 #include <messages.h>
@@ -57,7 +56,7 @@ int main(int argc, char* argv[]) {
     const auto &best = result.second;
 
     INFO("Top " << tf.budget << " candidates: ");
-    for (const auto &c : best)
+    for (const auto &c : best.array())
     {
         INFO(std::to_string(c->id));
     }

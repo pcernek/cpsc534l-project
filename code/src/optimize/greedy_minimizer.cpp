@@ -31,25 +31,25 @@ hh::greedy_minimizer::minimize(hh::set_function_t f, const hh::node_array_t &gro
     {
         // This is the greedy part
         auto best_node = greedy_choose_node(candidate_nodes, cur_candidate_solution, f);
-        cur_candidate_solution.push_back(best_node);
+        cur_candidate_solution.add(best_node);
         if (!c_->satisfied_by(cur_candidate_solution))
         {
-            cur_candidate_solution.pop_back();
+            cur_candidate_solution.remove(best_node);
             break;
         }
         auto cur_val = f->eval(cur_candidate_solution);
         solution_values.push_back(cur_val);
         // remove other nodes that wouldn't contribute
-        candidate_nodes.erase(std::find(candidate_nodes.begin(), candidate_nodes.end(), best_node));
+        candidate_nodes.remove(best_node);
     }
 
     const auto best_value_iter = min_element(solution_values.begin(), solution_values.end());
     // subtract 1 to make the index compatible with the candidate solutions
     const auto index_of_best_solution = best_value_iter - solution_values.begin() - 1;
-    const auto solution_slice_end = cur_candidate_solution.begin() + index_of_best_solution + 1;
+    const auto solution_slice_end = cur_candidate_solution.array().begin() + index_of_best_solution + 1;
 
-    const node_array_t solution = {cur_candidate_solution.begin(), solution_slice_end};
-    return make_pair(*best_value_iter, solution);
+    const node_array_t solution(std::vector<node_t>(cur_candidate_solution.array().begin(), solution_slice_end));
+    return std::make_pair(*best_value_iter, solution);
 }
 
 hh::node_t
@@ -58,12 +58,12 @@ hh::greedy_minimizer::greedy_choose_node(const hh::node_array_t &candidate_nodes
                                          hh::set_function_t f) const
 {
     std::vector<value_t> vals(candidate_nodes.size());
-    transform(candidate_nodes.begin(), candidate_nodes.end(), vals.begin(),
-              [this, cur_solution, f](const node_t &n) {
-                  node_array_t combined(cur_solution);
-                  combined.insert(combined.end(), n);
-                  return f->eval(combined);
-              });
+    for (int i = 0; i < candidate_nodes.size(); i++)
+    {
+        node_array_t combined(cur_solution.array());
+        combined.add(candidate_nodes.array()[i]);
+        vals[i] = f->eval(combined);
+    }
 
     // Find the node from the candidate set with the smallest value
     value_t min_so_far = MAX_VALUE;
@@ -74,7 +74,7 @@ hh::greedy_minimizer::greedy_choose_node(const hh::node_array_t &candidate_nodes
         if (v < min_so_far)
         {
             min_so_far = v;
-            best_node = candidate_nodes[i];
+            best_node = candidate_nodes.array()[i];
         }
     }
 
