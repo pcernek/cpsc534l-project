@@ -7,7 +7,9 @@ include_directories(${TEST_DIR})
 # Get all code files in test directory
 #file(GLOB_RECURSE TEST_FILES ${TEST_DIR}/*.cpp ${TEST_DIR}/*.h)
 set(TEST_FILES
-        test/greedy_minimizer_test.cpp test/greedy_minimizer_test.h)
+        test/greedy_minimizer_test.cpp test/greedy_minimizer_test.h
+        test/node_set_test.cpp
+        )
 
 # Create target for automated unit tests
 add_executable(run_tests ${TEST_FILES} test/main.cpp)
