@@ -22,11 +22,21 @@ hh::greedy_minimizer::minimize(hh::set_function_t f, const hh::node_array_t &gro
     std::vector<value_t> solution_values;
     node_array_t cur_candidate_solution;
 
+    // Initialize with empty set
+    value_t empty_val = f->eval(cur_candidate_solution);
+    solution_values.push_back(empty_val);
+    // Now there is one more element in solution_values than there is in cur_candidate_solution
+
     while (!candidate_nodes.empty() && c_->satisfied_by(cur_candidate_solution))
     {
         // This is the greedy part
         auto best_node = greedy_choose_node(candidate_nodes, cur_candidate_solution, f);
         cur_candidate_solution.push_back(best_node);
+        if (!c_->satisfied_by(cur_candidate_solution))
+        {
+            cur_candidate_solution.pop_back();
+            break;
+        }
         auto cur_val = f->eval(cur_candidate_solution);
         solution_values.push_back(cur_val);
         // remove other nodes that wouldn't contribute
@@ -34,7 +44,8 @@ hh::greedy_minimizer::minimize(hh::set_function_t f, const hh::node_array_t &gro
     }
 
     const auto best_value_iter = min_element(solution_values.begin(), solution_values.end());
-    const auto index_of_best_solution = best_value_iter - solution_values.begin();
+    // subtract 1 to make the index compatible with the candidate solutions
+    const auto index_of_best_solution = best_value_iter - solution_values.begin() - 1;
     const auto solution_slice_end = cur_candidate_solution.begin() + index_of_best_solution + 1;
 
     const node_array_t solution = {cur_candidate_solution.begin(), solution_slice_end};

@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
     INFO("Finished reading instance from file!");
 
     utility_calculator_t uc = std::make_shared<expected_coverage_calculator>(tf.T);
-    cost_calculator_t cc = std::make_shared<team_inclusion_cost_adder>(tf.G);
+    cost_calculator_t cc = std::make_shared<team_inclusion_cost_adder>();
 
     set_function_t util_func = std::make_shared<util_wrapper>(uc);
     set_function_t cost_func = std::make_shared<cost_wrapper>(cc);
