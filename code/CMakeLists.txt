@@ -11,4 +11,4 @@ include(src.cmake)
 include(main.cmake)
 
 # Instructions for building tests
-#include(test.cmake)
+include(test.cmake)
