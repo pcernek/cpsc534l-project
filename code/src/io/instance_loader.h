@@ -29,7 +29,7 @@ private:
 
     static node_array_t load_nodes(std::ifstream &in_file, size_t num_nodes, const std::vector<skill_t> &all_skills);
 
-    static task_distribution_t load_constant_distribution(std::ifstream &in_file, size_t num_skills, double threshold=0.5);
+    static task_distribution_t load_constant_distribution(std::ifstream &in_file, size_t num_skills, double threshold=0.005);
 
     static node_array_t load_candidates(std::ifstream &in_file, size_t num_candidates, const node_array_t &all_nodes);
 
