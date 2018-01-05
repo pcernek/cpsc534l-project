@@ -1,4 +1,5 @@
 # Optimal choice should be candidates 2, and then 1
+# ...where together they have cost 2, and coverage
 # Number of nodes
 4
 # Number of skills
