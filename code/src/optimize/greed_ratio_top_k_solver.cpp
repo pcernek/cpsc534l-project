@@ -8,7 +8,7 @@
 
 using namespace hh;
 
-node_array_t greed_ratio_top_k_solver::top_k(node_array_t candidate_nodes, const node_array_t &all_nodes,
+std::pair<value_t, node_array_t> greed_ratio_top_k_solver::top_k(node_array_t candidate_nodes, const node_array_t &all_nodes,
                                              value_t budget) const
 {
     DEBUG("Now running greed ratio to find top " << budget << " candidates");
@@ -29,7 +29,9 @@ node_array_t greed_ratio_top_k_solver::top_k(node_array_t candidate_nodes, const
     const auto best_value_iter = std::min_element(solution_values.begin(), solution_values.end());
     const auto index_of_best_solution = best_value_iter - solution_values.begin();
     const auto solution_slice_end = cur_candidate_solution.begin() + index_of_best_solution + 1;
-    return {cur_candidate_solution.begin(), solution_slice_end};
+
+    const node_array_t solution = {cur_candidate_solution.begin(), solution_slice_end};
+    return std::make_pair(*best_value_iter, solution);
 }
 
 node_array_t greed_ratio_top_k_solver::nodes_with_positive_marginal_utility(const node_array_t &nodes) const

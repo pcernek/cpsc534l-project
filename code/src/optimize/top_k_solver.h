@@ -34,7 +34,7 @@ public:
      * @param budget - the maximum feasible total cost of new hires
      * @return the top k most valuable nodes
      */
-    virtual node_array_t top_k(node_array_t candidates, const node_array_t &all_nodes, value_t budget) const = 0;
+    virtual std::pair<value_t, node_array_t> top_k(node_array_t candidates, const node_array_t &all_nodes, value_t budget) const = 0;
 
 };
 
