@@ -5,5 +5,11 @@ set(PROGRAM_DIR main)
 add_executable(run_whole_team_greed_ratio ${PROGRAM_DIR}/run_whole_team_greed_ratio.cpp)
 target_link_libraries(run_whole_team_greed_ratio ${SRC_LIB})
 
-add_executable(run_rs_mc ${PROGRAM_DIR}/run_rs_mc.cpp)
-target_link_libraries(run_rs_mc ${SRC_LIB})
+add_executable(run_mc_rs ${PROGRAM_DIR}/run_mc_rs.cpp)
+target_link_libraries(run_mc_rs ${SRC_LIB})
+
+add_executable(run_greedy_rs ${PROGRAM_DIR}/run_greedy_rs.cpp)
+target_link_libraries(run_greedy_rs ${SRC_LIB})
+
+add_executable(run_mc_mc ${PROGRAM_DIR}/run_mc_mc.cpp)
+target_link_libraries(run_mc_mc ${SRC_LIB})

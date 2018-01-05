@@ -9,10 +9,15 @@ import dblp_types as dt
 
 MIN_PUBS_PER_AUTHOR = 3
 
+MAX_NUM_AUTHORS = 1000
+
+MAX_NUM_SKILLS_PER_AUTHOR = 10
 
 def parse_dblp(dblp_fname):
+  print("Parsing ", dblp_fname)
   parser = etree.XMLParser(dtd_validation=True)
   tree = etree.parse(dblp_fname, parser)
+  print("Done parsing!")
   dblp = tree.getroot()
 
   authors = {}
@@ -30,6 +35,8 @@ def parse_dblp(dblp_fname):
 
     # Parse & process the skills for the entry
     cur_skills = set()
+    if not title.text:
+      continue
     for word in title.text.split():
       word = du.sanitize(word)
       if word and word not in du.filler_words:
@@ -45,7 +52,8 @@ def parse_dblp(dblp_fname):
       if not key in authors:
         author = dt.author(elem.text)
         authors[key] = author
-      authors[key].skills.update(cur_skills)
+      if len(authors[key].skills) < MAX_NUM_SKILLS_PER_AUTHOR:
+        authors[key].skills.update(cur_skills)
       authors[key].pubs.add(pub_id)
 
     pub_id += 1
@@ -77,19 +85,36 @@ def generate_problem_instance(dblp_fname, out_fname, candidate_ids, k):
 
   auth_list = [a for k, a in authors.items() if len(a.pubs) >= MIN_PUBS_PER_AUTHOR]
   auth_list.sort(key=lambda a: a.id_num)
+  if len(auth_list) > MAX_NUM_AUTHORS:
+    auth_list = auth_list[:MAX_NUM_AUTHORS]
   print("Num authors after filtering: ", len(auth_list))
+
+  print("Filtering skills based on remaining authors...")
+  filtered_skills = set()
+  for a in auth_list:
+    filtered_skills.update(a.skills)
+
+  filtered_skill_ids = {}
+  filtered_skill_hist = []
+  for i, s in enumerate(filtered_skills):
+    filtered_skill_ids[s] = i
+    filtered_skill_hist.append(skill_hist[skill_ids[s]]) 
+  # print(filtered_skill_hist)
+  print("Num skills after filtering: ", len(filtered_skill_ids))
 
   with du.tf_file_writer(out_fname) as tfw:
     tfw.write_comment("Number of nodes")
     tfw.write(len(auth_list))
     tfw.write_comment("Number of skills")
-    tfw.write(len(skill_ids))
+    tfw.write(len(filtered_skill_ids))
 
-    for author in auth_list:
-      print(author, author.pubs, author.skills)
+    # for author in auth_list:
+      # print(author, author.pubs, author.skills)
 
+    print("Now populating collaborations")
     populate_collabs(auth_list)
 
+    print("Now computing pairwise edge costs")
     tfw.write_comment("Matrix of pairwise edge costs")
     for a1 in auth_list:
       s = []
@@ -100,14 +125,16 @@ def generate_problem_instance(dblp_fname, out_fname, candidate_ids, k):
         s.append(comm_cost)
       tfw.write(' '.join([str(f) for f in s]))
 
+    print("Writing skills for each author")
     tfw.write_comment("Skill allocation per node")
     for a in auth_list:
       tfw.write(len(a.skills))
-      tfw.write(' '.join([str(f) for f in sorted([skill_ids[s] for s in a.skills])]))
+      tfw.write(' '.join([str(f) for f in sorted([filtered_skill_ids[s] for s in a.skills])]))
 
+    print("Computing skill probabilities")
     tfw.write_comment("Skill probabilities")
-    pf = sum(skill_hist)
-    tfw.write(' '.join([str(s / pf) for s in skill_hist]))
+    pf = sum(filtered_skill_hist)
+    tfw.write(' '.join([str(float(s) / pf) for s in filtered_skill_hist]))
 
     tfw.write_comment("Number of candidates")
     tfw.write(str(len(candidate_ids)))
@@ -125,7 +152,7 @@ def main():
   parser.add_argument('--budget', type=float, default=1)
 
   args = parser.parse_args()
-  generate_problem_instance(args.input, args.output, args.candidate_ids, args.k)
+  generate_problem_instance(args.input, args.output, args.candidate_ids, args.budget)
 
 if __name__ == "__main__":
   main()

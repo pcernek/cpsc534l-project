@@ -43,6 +43,8 @@ struct instance
     const value_t budget;
 };
 
+typedef std::shared_ptr<instance> instance_t;
+
 }
 
 
