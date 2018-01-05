@@ -15,12 +15,12 @@ hh::greedy_minimizer::greedy_minimizer(hh::constraint_t c) : c_(std::move(c))
 
 }
 
-std::pair<hh::value_t, hh::node_array_t>
-hh::greedy_minimizer::minimize(hh::set_function_t f, const hh::node_array_t &ground_set)
+std::pair<hh::value_t, hh::node_set_t>
+hh::greedy_minimizer::minimize(hh::set_function_t f, const hh::node_set_t &ground_set)
 {
-    node_array_t candidate_nodes = ground_set;
+    node_set_t candidate_nodes = ground_set;
     std::vector<value_t> solution_values;
-    node_array_t cur_candidate_solution;
+    node_set_t cur_candidate_solution;
 
     // Initialize with empty set
     value_t empty_val = f->eval(cur_candidate_solution);
@@ -48,19 +48,19 @@ hh::greedy_minimizer::minimize(hh::set_function_t f, const hh::node_array_t &gro
     const auto index_of_best_solution = best_value_iter - solution_values.begin() - 1;
     const auto solution_slice_end = cur_candidate_solution.array().begin() + index_of_best_solution + 1;
 
-    const node_array_t solution(std::vector<node_t>(cur_candidate_solution.array().begin(), solution_slice_end));
+    const node_set_t solution(std::vector<node_t>(cur_candidate_solution.array().begin(), solution_slice_end));
     return std::make_pair(*best_value_iter, solution);
 }
 
 hh::node_t
-hh::greedy_minimizer::greedy_choose_node(const hh::node_array_t &candidate_nodes,
-                                         const hh::node_array_t &cur_solution,
+hh::greedy_minimizer::greedy_choose_node(const hh::node_set_t &candidate_nodes,
+                                         const hh::node_set_t &cur_solution,
                                          hh::set_function_t f) const
 {
     std::vector<value_t> vals(candidate_nodes.size());
     for (int i = 0; i < candidate_nodes.size(); i++)
     {
-        node_array_t combined(cur_solution.array());
+        node_set_t combined(cur_solution.array());
         combined.add(candidate_nodes.array()[i]);
         vals[i] = f->eval(combined);
     }

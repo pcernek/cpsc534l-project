@@ -21,7 +21,7 @@ TEST_F(greedy_minimizer_test, hire_all)
     cost_calculator_t team_inclusion = std::make_shared<team_inclusion_cost_adder>();
     set_function_t cw = std::make_shared<cost_wrapper>(team_inclusion);
 
-    node_array_t nodes;
+    node_set_t nodes;
     size_t num_nodes = 5;
     for (size_t i = 0; i < num_nodes; i++)
     {
@@ -43,7 +43,7 @@ TEST_F(greedy_minimizer_test, hire_none)
     cost_calculator_t team_inclusion = std::make_shared<team_inclusion_cost_adder>();
     set_function_t cw = std::make_shared<cost_wrapper>(team_inclusion);
 
-    node_array_t nodes;
+    node_set_t nodes;
     size_t num_nodes = 5;
     for (size_t i = 0; i < num_nodes; i++)
     {
@@ -65,7 +65,7 @@ TEST_F(greedy_minimizer_test, hire_constrained)
     cost_calculator_t team_inclusion = std::make_shared<team_inclusion_cost_adder>();
     set_function_t cw = std::make_shared<cost_wrapper>(team_inclusion);
 
-    node_array_t nodes;
+    node_set_t nodes;
     size_t num_nodes = 5;
     for (size_t i = 0; i < num_nodes; i++)
     {

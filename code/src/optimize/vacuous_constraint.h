@@ -13,7 +13,7 @@ namespace hh
 class vacuous_constraint : public constraint
 {
 public:
-    bool satisfied_by(const node_array_t &candidate_solution) const override
+    bool satisfied_by(const node_set_t &candidate_solution) const override
     {
         return true;
     }

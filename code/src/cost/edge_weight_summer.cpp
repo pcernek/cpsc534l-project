@@ -4,7 +4,7 @@
 
 #include "edge_weight_summer.h"
 
-hh::value_t hh::edge_weight_summer::calc_cost(const hh::node_array_t &nodes) const
+hh::value_t hh::edge_weight_summer::calc_cost(const hh::node_set_t &nodes) const
 {
     value_t sum = 0;
     for (int i = 0; i < nodes.size(); i++)

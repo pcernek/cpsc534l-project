@@ -75,12 +75,13 @@ edge_weights_t instance_loader::load_edge_costs(std::ifstream &in_file,
     return matrix;
 }
 
-node_array_t instance_loader::load_nodes(std::ifstream &in_file,
-                                         size_t num_nodes, const std::vector<skill_t> &all_skills)
+node_set_t instance_loader::load_nodes(std::ifstream &in_file,
+                                       size_t num_nodes,
+                                       const std::vector<skill_t> &all_skills)
 {
-    node_array_t all_nodes;
+    node_set_t all_nodes;
 
-    for (id_t i = 0; i < all_nodes.size(); i++)
+    for (id_t i = 0; i < num_nodes; i++)
     {
         size_t num_node_skills;
         stream_next_line(in_file) >> num_node_skills;
@@ -132,11 +133,11 @@ task_distribution_t instance_loader::load_constant_distribution(std::ifstream &i
     return td;
 }
 
-node_array_t instance_loader::load_candidates(std::ifstream &in_file,
+node_set_t instance_loader::load_candidates(std::ifstream &in_file,
                                               size_t num_candidates,
-                                              const node_array_t &all_nodes)
+                                              const node_set_t &all_nodes)
 {
-    node_array_t candidates;
+    node_set_t candidates;
 
     std::istringstream iss = stream_next_line(in_file);
 

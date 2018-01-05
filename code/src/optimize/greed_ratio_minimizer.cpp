@@ -14,26 +14,26 @@ greed_ratio_minimizer(constraint_t c, set_function_t submodular_denominator) :
 
 }
 
-hh::node_array_t hh::greed_ratio_minimizer::remove_useless_candidate_nodes(const node_array_t &candidates,
-                                                                           const node_array_t &cur_solution,
+hh::node_set_t hh::greed_ratio_minimizer::remove_useless_candidate_nodes(const node_set_t &candidates,
+                                                                           const node_set_t &cur_solution,
                                                                            const set_function_t f) const
 {
     // TODO: This is a bit of a hack to get around our use of a custom container for nodes
-    real_node_array filtered(candidates.array());
+    node_array_t filtered(candidates.array());
     auto filtered_end = std::remove_if(filtered.begin(), filtered.end(), [this, cur_solution](const node_t &n){
         bool has_zero_marginal_utility = this->submodular_denominator_->has_zero_marginal_gain(n, cur_solution);
         return has_zero_marginal_utility;
     });
     filtered.erase(filtered_end, filtered.end());
-    return node_array_t(filtered);
+    return node_set_t(filtered);
 }
 
-std::pair<hh::value_t, hh::node_array_t>
-hh::greed_ratio_minimizer::minimize(set_function_t f, const node_array_t &ground_set)
+std::pair<hh::value_t, hh::node_set_t>
+hh::greed_ratio_minimizer::minimize(set_function_t f, const node_set_t &ground_set)
 {
-    node_array_t candidate_nodes = ground_set;
+    node_set_t candidate_nodes = ground_set;
     std::vector<value_t> solution_values;
-    node_array_t cur_candidate_solution;
+    node_set_t cur_candidate_solution;
 
     // Initialize with empty set
     value_t empty_val = f->eval(cur_candidate_solution);
@@ -61,12 +61,12 @@ hh::greed_ratio_minimizer::minimize(set_function_t f, const node_array_t &ground
     const auto index_of_best_solution = best_value_iter - solution_values.begin() - 1;
     const auto solution_slice_end = cur_candidate_solution.array().begin() + index_of_best_solution + 1;
 
-    const node_array_t solution({cur_candidate_solution.array().begin(), solution_slice_end});
+    const node_set_t solution({cur_candidate_solution.array().begin(), solution_slice_end});
     return std::make_pair(*best_value_iter, solution);
 }
 
-hh::node_t hh::greed_ratio_minimizer::greedy_choose_node(const node_array_t &candidate_nodes,
-                                                         const node_array_t &cur_solution,
+hh::node_t hh::greed_ratio_minimizer::greedy_choose_node(const node_set_t &candidate_nodes,
+                                                         const node_set_t &cur_solution,
                                                          set_function_t f) const
 {
     std::vector<value_t> marginal_gains(candidate_nodes.size());

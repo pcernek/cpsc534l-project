@@ -35,7 +35,7 @@ struct instance
      * If you want to search over the entire set, just set the candidate nodes equal to
      * the set of all nodes in the graph.
      */
-    const node_array_t candidates;
+    const node_set_t candidates;
 
     /**
      * Budget with which to hire

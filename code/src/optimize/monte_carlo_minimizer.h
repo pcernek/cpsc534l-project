@@ -25,7 +25,7 @@ public:
 
     explicit monte_carlo_minimizer(constraint_t c, size_t num_samples = DEFAULT_NUM_SAMPLES);
 
-    std::pair<value_t, node_array_t> minimize(set_function_t f, const node_array_t &ground_set) override;
+    std::pair<value_t, node_set_t> minimize(set_function_t f, const node_set_t &ground_set) override;
 
     void set_num_samples(size_t num_samples);
 
@@ -37,7 +37,7 @@ private:
 
     const constraint_t constraint_;
 
-    node_array_t draw_sample(const node_array_t &ground_set);
+    node_set_t draw_sample(const node_set_t &ground_set);
 };
 
 }

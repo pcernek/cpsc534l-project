@@ -22,7 +22,7 @@ public:
      * @param nodes
      * @return
      */
-    virtual value_t calc_cost(const node_array_t &nodes) const = 0;
+    virtual value_t calc_cost(const node_set_t &nodes) const = 0;
 
     /**
      * NOTE: Assumes nodes does not contain target_node
@@ -30,10 +30,10 @@ public:
      * @param nodes
      * @return
      */
-    virtual value_t calc_marginal_cost(const node_t &target_node, const node_array_t &nodes) const
+    virtual value_t calc_marginal_cost(const node_t &target_node, const node_set_t &nodes) const
     {
         const auto cost_without = calc_cost(nodes);
-        node_array_t augmented_nodes(nodes);
+        node_set_t augmented_nodes(nodes);
         augmented_nodes.add(target_node);
         const auto cost_with = calc_cost(augmented_nodes);
         return cost_with - cost_without;

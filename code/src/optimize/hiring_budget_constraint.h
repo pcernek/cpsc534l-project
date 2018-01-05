@@ -18,7 +18,7 @@ public:
 
     }
 
-    bool satisfied_by(const node_array_t &candidate_solution) const override
+    bool satisfied_by(const node_set_t &candidate_solution) const override
     {
         double sum = 0;
         for (const node_t &n : candidate_solution.array())

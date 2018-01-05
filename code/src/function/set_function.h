@@ -18,21 +18,21 @@ namespace hh
 class set_function
 {
 public:
-    virtual value_t eval(const node_array_t &nodes) const = 0;
+    virtual value_t eval(const node_set_t &nodes) const = 0;
 
-    value_t marginal_gain(const node_t &n, const node_array_t &nodes) const
+    value_t marginal_gain(const node_t &n, const node_set_t &nodes) const
     {
         const auto val_without = eval(nodes);
-        node_array_t augmented_nodes(nodes);
+        node_set_t augmented_nodes(nodes);
         augmented_nodes.add(n);
         const auto val_with = eval(augmented_nodes);
         return val_with - val_without;
     }
 
-    bool has_zero_marginal_gain(const node_t &n, const node_array_t &nodes) const
+    bool has_zero_marginal_gain(const node_t &n, const node_set_t &nodes) const
     {
         const auto util_without = eval(nodes);
-        node_array_t augmented_nodes(nodes);
+        node_set_t augmented_nodes(nodes);
         augmented_nodes.add(n);
         const auto util_with = eval(augmented_nodes);
         bool has_zero_marginal_utility = util_with - util_without < (util_without * NEGLIGIBLE_FRACTION_FOR_MARGINAL_GAIN);

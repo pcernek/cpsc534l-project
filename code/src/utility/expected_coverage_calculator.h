@@ -24,11 +24,11 @@ public:
 
     }
 
-    value_t calc_utility(const node_array_t &nodes) const override ;
+    value_t calc_utility(const node_set_t &nodes) const override ;
 
 private:
-    static double calc_coverage(const node_array_t &nodes, const task_t &t);
-    static std::unordered_set<skill_t> aggregate_skillset(const node_array_t &nodes);
+    static double calc_coverage(const node_set_t &nodes, const task_t &t);
+    static std::unordered_set<skill_t> aggregate_skillset(const node_set_t &nodes);
     static size_t calc_intersect_size(const std::unordered_set<skill_t> &set1,
                                       const std::unordered_set<skill_t> &set2);
 

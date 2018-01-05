@@ -15,7 +15,7 @@ class team_inclusion_cost_adder : public cost_calculator
 {
 public:
     
-    value_t calc_cost(const node_array_t &nodes) const override;
+    value_t calc_cost(const node_set_t &nodes) const override;
 
 };
 

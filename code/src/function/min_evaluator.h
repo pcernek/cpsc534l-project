@@ -18,16 +18,16 @@ namespace hh
 class min_evaluator : public set_function
 {
 public:
-    min_evaluator(const node_array_t &ground_set, minimizer_t m, set_function_t f) :
+    min_evaluator(const node_set_t &ground_set, minimizer_t m, set_function_t f) :
             ground_set_(std::move(ground_set)), m_(std::move(m)), f_(std::move(f))
 
     {
 
     }
 
-    value_t eval(const node_array_t &nodes) const override
+    value_t eval(const node_set_t &nodes) const override
     {
-        node_array_t combined(ground_set_);
+        node_set_t combined(ground_set_);
         combined.add_all(nodes);
 
         auto tmp_result = m_->minimize(f_, combined);
@@ -35,7 +35,7 @@ public:
     }
 
 private:
-    const node_array_t ground_set_;
+    const node_set_t ground_set_;
     minimizer_t m_;
     set_function_t f_;
 };

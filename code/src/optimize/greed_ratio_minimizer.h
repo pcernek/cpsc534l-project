@@ -21,18 +21,18 @@ class greed_ratio_minimizer : public minimizer
 public:
 
     explicit greed_ratio_minimizer(constraint_t c, set_function_t submodular_denominator);
-    std::pair<value_t, node_array_t> minimize(set_function_t f, const node_array_t &ground_set) override;
+    std::pair<value_t, node_set_t> minimize(set_function_t f, const node_set_t &ground_set) override;
 
 protected:
 
-    hh::node_array_t remove_useless_candidate_nodes(const node_array_t &candidates,
-                                                    const node_array_t &cur_solution,
+    hh::node_set_t remove_useless_candidate_nodes(const node_set_t &candidates,
+                                                    const node_set_t &cur_solution,
                                                     const set_function_t f) const;
 
 private:
 
-    node_t greedy_choose_node(const node_array_t &candidate_nodes,
-                              const node_array_t &cur_solution,
+    node_t greedy_choose_node(const node_set_t &candidate_nodes,
+                              const node_set_t &cur_solution,
                               set_function_t f) const;
     const constraint_t c_;
 

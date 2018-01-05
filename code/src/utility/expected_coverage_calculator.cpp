@@ -7,7 +7,7 @@
 
 using namespace hh;
 
-double expected_coverage_calculator::calc_coverage(const node_array_t &nodes, const task_t &t)
+double expected_coverage_calculator::calc_coverage(const node_set_t &nodes, const task_t &t)
 {
     if (t.size() == 0)
     {
@@ -19,7 +19,7 @@ double expected_coverage_calculator::calc_coverage(const node_array_t &nodes, co
     return calc_intersect_size(skillset, t) / t.size();
 }
 
-std::unordered_set<skill_t> expected_coverage_calculator::aggregate_skillset(const node_array_t &nodes)
+std::unordered_set<skill_t> expected_coverage_calculator::aggregate_skillset(const node_set_t &nodes)
 {
     std::unordered_set<skill_t> skillset{};
     for (const auto &n : nodes.array())
@@ -47,7 +47,7 @@ size_t expected_coverage_calculator::calc_intersect_size(const std::unordered_se
     return intersect_size;
 }
 
-value_t expected_coverage_calculator::calc_utility(const node_array_t &nodes) const
+value_t expected_coverage_calculator::calc_utility(const node_set_t &nodes) const
 {
     auto u = distribution_->calc_expectation_over_tasks([nodes](const task_t &t){
         auto cov = calc_coverage(nodes, t);

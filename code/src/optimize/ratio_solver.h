@@ -40,7 +40,7 @@ public:
      * @param nodes
      * @return
      */
-    virtual value_t calc_value(const node_array_t &nodes) const
+    virtual value_t calc_value(const node_set_t &nodes) const
     {
         return safe_quotient(uc_->calc_utility(nodes), cc_->calc_cost(nodes));
     }
@@ -51,19 +51,19 @@ public:
      * @param nodes
      * @return
      */
-    virtual value_t calc_marginal_value(const node_t &target_node, const node_array_t &nodes) const
+    virtual value_t calc_marginal_value(const node_t &target_node, const node_set_t &nodes) const
     {
         return safe_quotient(uc_->calc_marginal_utility(target_node, nodes), cc_->calc_marginal_cost(target_node, nodes));
     }
 
-    virtual value_t calc_inverse_value(const node_array_t &nodes) const
+    virtual value_t calc_inverse_value(const node_set_t &nodes) const
     {
         value_t c = cc_->calc_cost(nodes);
         value_t u = uc_->calc_utility(nodes);
         return safe_quotient(c, u);
     }
 
-    virtual value_t calc_inverse_marginal_value(const node_t &target_node, const node_array_t &nodes) const
+    virtual value_t calc_inverse_marginal_value(const node_t &target_node, const node_set_t &nodes) const
     {
         value_t u = uc_->calc_marginal_utility(target_node, nodes);
         value_t c = cc_->calc_marginal_cost(target_node, nodes);

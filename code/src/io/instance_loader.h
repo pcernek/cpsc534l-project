@@ -27,11 +27,11 @@ private:
 
     static edge_weights_t load_edge_costs(std::ifstream &in_file, size_t num_nodes);
 
-    static node_array_t load_nodes(std::ifstream &in_file, size_t num_nodes, const std::vector<skill_t> &all_skills);
+    static node_set_t load_nodes(std::ifstream &in_file, size_t num_nodes, const std::vector<skill_t> &all_skills);
 
     static task_distribution_t load_constant_distribution(std::ifstream &in_file, size_t num_skills, double threshold=0.005);
 
-    static node_array_t load_candidates(std::ifstream &in_file, size_t num_candidates, const node_array_t &all_nodes);
+    static node_set_t load_candidates(std::ifstream &in_file, size_t num_candidates, const node_set_t &all_nodes);
 
     static std::vector<skill_t> generate_all_skills(size_t num_skills);
 };

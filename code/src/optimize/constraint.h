@@ -14,7 +14,7 @@ class constraint
 {
 public:
 
-    virtual bool satisfied_by(const node_array_t &candidate_solution) const = 0;
+    virtual bool satisfied_by(const node_set_t &candidate_solution) const = 0;
 
 };
 

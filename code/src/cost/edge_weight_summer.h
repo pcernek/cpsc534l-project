@@ -42,7 +42,7 @@ public:
      * @param nodes - the nodes representing a team for which to compute communication cost
      * @return the sum of the edge weights of the subgraph induced by these nodes on the underlying graph
      */
-    value_t calc_cost(const node_array_t &nodes) const override;
+    value_t calc_cost(const node_set_t &nodes) const override;
 
 private:
 

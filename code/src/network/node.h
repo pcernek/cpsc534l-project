@@ -126,8 +126,8 @@ private:
     std::unordered_set<node_t, node_t_hasher, node_t_equality> set_;
 };
 
-typedef std::vector<node_t> real_node_array;
-typedef node_set node_array_t;
+typedef std::vector<node_t> node_array_t;
+typedef node_set node_set_t;
 
 }
 

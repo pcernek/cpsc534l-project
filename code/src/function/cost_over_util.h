@@ -36,7 +36,7 @@ public:
 
     }
 
-    value_t eval(const node_array_t &nodes) const override
+    value_t eval(const node_set_t &nodes) const override
     {
         value_t c = cc_->calc_cost(nodes);
         value_t u = uc_->calc_utility(nodes);

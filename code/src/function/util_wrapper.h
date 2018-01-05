@@ -20,7 +20,7 @@ public:
 
     }
 
-    value_t eval(const node_array_t &nodes) const override
+    value_t eval(const node_set_t &nodes) const override
     {
         return u_->calc_utility(nodes);
     }

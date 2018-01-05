@@ -35,7 +35,7 @@ struct graph
     /**
      * It's useful to have a list of pointers to all the nodes in the graph.
      */
-    const node_array_t nodes;
+    const node_set_t nodes;
 
     double get_edge_weight(id_t node1_id, id_t node2_id) const
     {

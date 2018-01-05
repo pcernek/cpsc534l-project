@@ -17,13 +17,13 @@ public:
 
     explicit greedy_minimizer(constraint_t c);
 
-    std::pair<value_t, node_array_t> minimize(set_function_t f, const node_array_t &ground_set) override;
+    std::pair<value_t, node_set_t> minimize(set_function_t f, const node_set_t &ground_set) override;
 private:
 
     constraint_t c_;
 
-    node_t greedy_choose_node(const node_array_t &candidate_nodes,
-                              const node_array_t &cur_solution,
+    node_t greedy_choose_node(const node_set_t &candidate_nodes,
+                              const node_set_t &cur_solution,
                               set_function_t f) const;
 
 };
