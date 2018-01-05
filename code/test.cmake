@@ -5,11 +5,12 @@ set(TEST_DIR ${CMAKE_SOURCE_DIR}/test)
 include_directories(${TEST_DIR})
 
 # Get all code files in test directory
-file(GLOB_RECURSE TEST_FILES ${TEST_DIR}/*.cpp ${TEST_DIR}/*.h)
+#file(GLOB_RECURSE TEST_FILES ${TEST_DIR}/*.cpp ${TEST_DIR}/*.h)
+set(TEST_FILES
+        test/greedy_minimizer_test.cpp test/greedy_minimizer_test.h)
 
 # Create target for automated unit tests
-add_executable(run_tests
-        ${TEST_FILES})
+add_executable(run_tests ${TEST_FILES} test/main.cpp)
 
 # Download and unpack googletest at configure time
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
