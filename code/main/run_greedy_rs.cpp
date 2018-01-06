@@ -25,7 +25,7 @@ using namespace hh;
 
 int main(int argc, char* argv[]) {
 
-    DEBUG("Starting run RS MC");
+    INFO("Running Greedy + RS");
     if (argc < 2)
     {
         std::cerr << "Error: must have at least 1 command line arg for path to input file " << std::endl;

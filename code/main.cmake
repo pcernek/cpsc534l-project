@@ -13,3 +13,6 @@ target_link_libraries(run_greedy_rs ${SRC_LIB})
 
 add_executable(run_mc_mc ${PROGRAM_DIR}/run_mc_mc.cpp)
 target_link_libraries(run_mc_mc ${SRC_LIB})
+
+add_executable(run_greedy_mc ${PROGRAM_DIR}/run_greedy_mc.cpp)
+target_link_libraries(run_greedy_mc ${SRC_LIB})

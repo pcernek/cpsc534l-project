@@ -25,7 +25,7 @@ using namespace hh;
 
 int main(int argc, char* argv[]) {
 
-    DEBUG("Starting run RS MC");
+    INFO("Running MC + MC");
     if (argc < 2)
     {
         std::cerr << "Error: must have at least 1 command line arg for path to input file " << std::endl;
@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
     set_function_t inner = std::make_shared<min_evaluator>(tf.G->nodes.minus(tf.candidates), mc_min_inner, inverse_ratio);
 
     constraint_t bc = std::make_shared<hiring_budget_constraint>(tf.budget);
-    minimizer_t mc_min_outter = std::make_shared<monte_carlo_minimizer>(bc, 100);
+    minimizer_t mc_min_outter = std::make_shared<monte_carlo_minimizer>(bc, 50);
 
     const auto &result = mc_min_outter->minimize(inner, tf.candidates);
 

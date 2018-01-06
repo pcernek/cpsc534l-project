@@ -1,5 +1,5 @@
 //
-// Created by paul on 04/01/18.
+// Created by paul on 06/01/18.
 //
 
 #include <iostream>
@@ -25,7 +25,7 @@ using namespace hh;
 
 int main(int argc, char* argv[]) {
 
-    INFO("Running MC + RS");
+    INFO("Running Greedy + MC");
     if (argc < 2)
     {
         std::cerr << "Error: must have at least 1 command line arg for path to input file " << std::endl;
@@ -43,14 +43,14 @@ int main(int argc, char* argv[]) {
     set_function_t cost_func = std::make_shared<cost_wrapper>(cc);
 
     constraint_t vc = std::make_shared<vacuous_constraint>();
-    constraint_t bc = std::make_shared<hiring_budget_constraint>(tf.budget);
-    minimizer_t mc_min = std::make_shared<monte_carlo_minimizer>(bc, 20);
-
     set_function_t inverse_ratio = std::make_shared<cost_over_util>(cc, uc);
-    minimizer_t rs_min = std::make_shared<greed_ratio_minimizer>(vc, util_func);
-    set_function_t inner = std::make_shared<min_evaluator>(tf.G->nodes.minus(tf.candidates), rs_min, inverse_ratio);
+    minimizer_t mc_min_inner = std::make_shared<monte_carlo_minimizer>(vc, 200);
+    set_function_t inner = std::make_shared<min_evaluator>(tf.G->nodes.minus(tf.candidates), mc_min_inner, inverse_ratio);
 
-    const auto &result = mc_min->minimize(inner, tf.candidates);
+    constraint_t bc = std::make_shared<hiring_budget_constraint>(tf.budget);
+    minimizer_t greedy_min = std::make_shared<greedy_minimizer>(bc);
+
+    const auto &result = greedy_min->minimize(inner, tf.candidates);
 
     value_t opt_value = result.first;
     const auto &best = result.second;

@@ -73,7 +73,7 @@ public:
         }
     }
 
-    const std::vector<node_t> array() const
+    const std::vector<node_t> & array() const
     {
         return array_;
     }
