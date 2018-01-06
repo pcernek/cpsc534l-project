@@ -1,0 +1,19 @@
+\subsection{Unknown Edge Weights}
+
+A major limitation is our assumption that the communication costs between all candidates as well as the existing organization are known prior. While this assumption is likely fair in terms the firing problem and possibly even the assassination problem, it is unrealistic in terms of hiring. To mitigate this organizations aiming to use this approach might require candidates to perform exploratory tasks so as to evaluate their communication costs for the organizations specific needs. Alternatively one could define a similarity measure on people and use it was an approximation for communication costs, but the efficacy of this approach will be domain specific and depend on the quality of the similarity measure. Intuitively hiring people is often much harder than firing people. The heart of this difference lies in the incomplete knowledge inherit to the hiring problem, and we are hopeful that our approach could be adapted to mitigate this difficulty. 
+
+\subsection{Communication Cost}
+
+While constraining our choice of cost function to a per node weight makes the cost modular and thus more tractable, it also ignores most of the graph structure that we would like to exploit. In \cite{bai2016algorithms} they present two additional approaches for optimization the ratio where both functions are submodular. We propose three possible extensions to address this. 
+
+\subsubsection{Intra-team Communication}
+
+To measure how well a team communicates with itself we propose using the maximum cut. The maximum cut is NP-Hard to compute exactly, however it is both submodular and bounded approximations exist. 
+
+\subsubsection{Inter-team Communication}
+
+While inter-team communication, that is the communication between the team and the rest of the organization, is not examined in the Team Formation literature there are use cases where this cost may dominate that of the intra-team communication. An example of this could be if the team is to be deployed remotely (e.g. on Mars) and communicating back to the organization incurs great cost. To measure this communication cost we propose again using the cut function which is again submodular, and is also extremely easy to compute (by just summing edge weights that cross the cut).
+
+\subsubsection{Use Non-submodular Communication Costs}
+
+  
