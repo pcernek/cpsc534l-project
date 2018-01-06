@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
 
     set_function_t inverse_ratio = std::make_shared<cost_over_util>(cc, uc);
     minimizer_t rs_min = std::make_shared<greed_ratio_minimizer>(vc, util_func);
-    set_function_t inner = std::make_shared<min_evaluator>(tf.G->nodes, rs_min, inverse_ratio);
+    set_function_t inner = std::make_shared<min_evaluator>(tf.G->nodes.minus(tf.candidates), rs_min, inverse_ratio);
 
     const auto &result = mc_min->minimize(inner, tf.candidates);
 

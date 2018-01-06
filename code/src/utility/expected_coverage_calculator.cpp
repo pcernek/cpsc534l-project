@@ -16,7 +16,7 @@ double expected_coverage_calculator::calc_coverage(const node_set_t &nodes, cons
 
     std::unordered_set<skill_t> skillset = aggregate_skillset(nodes);
 
-    return calc_intersect_size(skillset, t) / t.size();
+    return static_cast<double>(calc_intersect_size(skillset, t)) / t.size();
 }
 
 std::unordered_set<skill_t> expected_coverage_calculator::aggregate_skillset(const node_set_t &nodes)
@@ -53,5 +53,10 @@ value_t expected_coverage_calculator::calc_utility(const node_set_t &nodes) cons
         auto cov = calc_coverage(nodes, t);
         return cov;
     });
-    return u;
+    // We shift everything by 1 here to avoid ever having to return 0.
+    // This doesn't change the submodularity, monotonicity, or non-negativity of this function,
+    // and avoids troublesome divisions-by-zero elsewhere.
+    // It comes only at the cost that if the ratio function is called on the empty set,
+    // the result is 0 (rather than very large, which is screwy because it makes the empty set always optimal)
+    return 1 + u;
 }

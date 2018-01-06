@@ -8,8 +8,9 @@ include_directories(${TEST_DIR})
 #file(GLOB_RECURSE TEST_FILES ${TEST_DIR}/*.cpp ${TEST_DIR}/*.h)
 set(TEST_FILES
         test/greedy_minimizer_test.cpp test/greedy_minimizer_test.h
+        test/dummy_ignore_cost_test.cpp test/dummy_ignore_cost_test.h
         test/node_set_test.cpp
-        )
+        test/instance_loader_test.cpp test/instance_loader_test.h)
 
 # Create target for automated unit tests
 add_executable(run_tests ${TEST_FILES} test/main.cpp)

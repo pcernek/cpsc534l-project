@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
     constraint_t vc = std::make_shared<vacuous_constraint>();
     set_function_t inverse_ratio = std::make_shared<cost_over_util>(cc, uc);
     minimizer_t mc_min_inner = std::make_shared<monte_carlo_minimizer>(vc, 100);
-    set_function_t inner = std::make_shared<min_evaluator>(tf.G->nodes, mc_min_inner, inverse_ratio);
+    set_function_t inner = std::make_shared<min_evaluator>(tf.G->nodes.minus(tf.candidates), mc_min_inner, inverse_ratio);
 
     constraint_t bc = std::make_shared<hiring_budget_constraint>(tf.budget);
     minimizer_t mc_min_outter = std::make_shared<monte_carlo_minimizer>(bc, 100);

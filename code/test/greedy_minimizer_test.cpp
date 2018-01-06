@@ -53,8 +53,8 @@ TEST_F(greedy_minimizer_test, hire_none)
 
     greedy_minimizer gm(vc);
     auto result = gm.minimize(cw, nodes);
-    EXPECT_EQ(0, result.first);
-    EXPECT_EQ(0, result.second.size());
+    EXPECT_EQ(1, result.first);
+    EXPECT_EQ(1, result.second.size());
 }
 
 TEST_F(greedy_minimizer_test, hire_constrained)

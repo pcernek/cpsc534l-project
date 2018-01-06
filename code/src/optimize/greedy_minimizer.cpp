@@ -18,14 +18,14 @@ hh::greedy_minimizer::greedy_minimizer(hh::constraint_t c) : c_(std::move(c))
 std::pair<hh::value_t, hh::node_set_t>
 hh::greedy_minimizer::minimize(hh::set_function_t f, const hh::node_set_t &ground_set)
 {
+    if (ground_set.empty())
+    {
+        WARN("Received empty ground set as argument for greed_ratio_minimizer.");
+        return std::make_pair(MAX_VALUE, ground_set);
+    }
     node_set_t candidate_nodes = ground_set;
     std::vector<value_t> solution_values;
     node_set_t cur_candidate_solution;
-
-    // Initialize with empty set
-    value_t empty_val = f->eval(cur_candidate_solution);
-    solution_values.push_back(empty_val);
-    // Now there is one more element in solution_values than there is in cur_candidate_solution
 
     while (!candidate_nodes.empty() && c_->satisfied_by(cur_candidate_solution))
     {
@@ -39,16 +39,14 @@ hh::greedy_minimizer::minimize(hh::set_function_t f, const hh::node_set_t &groun
         }
         auto cur_val = f->eval(cur_candidate_solution);
         solution_values.push_back(cur_val);
-        // remove other nodes that wouldn't contribute
         candidate_nodes.remove(best_node);
     }
 
     const auto best_value_iter = min_element(solution_values.begin(), solution_values.end());
-    // subtract 1 to make the index compatible with the candidate solutions
-    const auto index_of_best_solution = best_value_iter - solution_values.begin() - 1;
+    const auto index_of_best_solution = best_value_iter - solution_values.begin();
     const auto solution_slice_end = cur_candidate_solution.array().begin() + index_of_best_solution + 1;
 
-    const node_set_t solution(std::vector<node_t>(cur_candidate_solution.array().begin(), solution_slice_end));
+    const node_set_t solution({cur_candidate_solution.array().begin(), solution_slice_end});
     return std::make_pair(*best_value_iter, solution);
 }
 
@@ -84,6 +82,5 @@ hh::greedy_minimizer::greedy_choose_node(const hh::node_set_t &candidate_nodes,
         throw std::exception(); // this is necessary because otherwise we're returning a null pointer!
     }
 
-//    DEBUG(typeid(*f).name() << " Choosing " << best_node-> id << " with val " << min_so_far);
     return best_node;
 }

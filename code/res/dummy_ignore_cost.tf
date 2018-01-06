@@ -1,9 +1,8 @@
-# Optimal choice should be candidates 2, and then 1
-# ...where together they have cost 2, and coverage
+# Optimal choice should be candidate 2
 # Number of nodes
 4
 # Number of skills
-5
+6
 # Matrix of pairwise edge costs
 # Note that this represents a directed graph, though it need not
 0 1 1 1
@@ -14,13 +13,13 @@
 2
 0 1
 3
-1 2
+2 5
 3
-1 3 4
+0 3 4
 1
 1
 # Skill probabilities
-1 0 1 1 1
+1 0 1 1 1 1
 # Number of candidates
 3
 # Indices of the candidates

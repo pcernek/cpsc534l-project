@@ -9,6 +9,7 @@
 #include <algorithm>
 
 #include <typedefs.h>
+#include <messages.h>
 
 #include "skill.h"
 
@@ -82,6 +83,21 @@ public:
         return set_.count(n) > 0;
     }
 
+    /**
+     * A shortcut for random access into the array backing this data structure
+     * @param idx
+     * @return
+     */
+    node_t get(id_t idx) const
+    {
+        if (idx >= array_.size())
+        {
+            WARN("Index out of bounds in current node set: got " << idx << ", but max index is " << array_.size() - 1);
+            throw std::exception();
+        }
+        return array_[idx];
+    }
+
     void add(const node_t &n)
     {
         if (contains(n))
@@ -119,6 +135,19 @@ public:
     bool empty() const
     {
         return size() == 0;
+    }
+
+    node_set minus(const node_set &other) const
+    {
+        node_set difference;
+        for (const node_t n: array_)
+        {
+            if (!other.contains(n))
+            {
+                difference.add(n);
+            }
+        }
+        return difference;
     }
 
 private:
