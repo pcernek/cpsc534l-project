@@ -18,6 +18,7 @@
 #include <function/util_wrapper.h>
 #include <function/cost_wrapper.h>
 #include <optimize/hiring_budget_constraint.h>
+#include <chrono>
 #include "instance.h"
 #include "io/instance_loader.h"
 
@@ -199,7 +200,11 @@ int main(int argc, char* argv[]) {
     minimizer_t m = build_minimizer(params, tf);
     set_function_t objective = build_objective(params, tf);
 
+    auto start = std::chrono::system_clock::now();
     const auto &result = m->minimize(objective, tf.candidates);
+    auto end = std::chrono::system_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end-start;
+    INFO("Elapsed time (s): " << elapsed_seconds.count());
 
     value_t opt_value = result.first;
     const auto &best = result.second;
