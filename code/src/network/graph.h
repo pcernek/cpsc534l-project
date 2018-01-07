@@ -41,27 +41,15 @@ struct graph
     {
         if (node1_id > edge_weights.size())
         {
-            WARN("Node1 id of " << node1_id << " exceeds number of rows in edge weight table ("
+            ERROR("Node1 id of " << node1_id << " exceeds number of rows in edge weight table ("
                                 << edge_weights.size() << ")!");
-            throw std::exception();
         }
         if (node2_id > edge_weights[node1_id].size())
         {
-            WARN("Node2 id of " << node2_id << " exceeds number of cols in edge weight table ("
+            ERROR("Node2 id of " << node2_id << " exceeds number of cols in edge weight table ("
                                 << edge_weights[node1_id].size() << ")!");
-            throw std::exception();
         }
         return edge_weights[node1_id][node2_id];
-    }
-
-    const node_t get_node(id_t node_id) const
-    {
-        if (node_id > nodes.size())
-        {
-            WARN("Node id of " << node_id << " exceeds number of nodes in the graph (" << nodes.size() << ")!");
-            throw std::exception();
-        }
-        return nodes.array()[node_id];
     }
 
 };

@@ -19,24 +19,25 @@ std::pair<value_t, node_set_t>
 monte_carlo_minimizer::minimize(set_function_t f, const node_set_t &ground_set)
 {
     value_t min_val_so_far = MAX_VALUE;
-    node_set_t best_so_far = ground_set;
+    node_set_t best_sample_so_far = ground_set;
 
     for (int i = 0; i < num_samples_; i++)
     {
         node_set_t cur_sample = draw_sample(ground_set);
-        if(!constraint_->satisfied_by(cur_sample))
+        // TODO: Ideally the objective function would nicely handle empty sets
+        if(!constraint_->satisfied_by(cur_sample) || cur_sample.empty())
         {
             i--; // TODO: Make sure that this is the desired behavior
             continue;
         }
         value_t cur_val = f->eval(cur_sample);
-        if (cur_val < min_val_so_far)
+        if (cur_val < min_val_so_far || (cur_val == min_val_so_far && cur_sample.size() > best_sample_so_far.size()))
         {
             min_val_so_far = cur_val;
-            best_so_far = cur_sample;
+            best_sample_so_far = cur_sample;
         }
     }
-    return {min_val_so_far, best_so_far};
+    return {min_val_so_far, best_sample_so_far};
 }
 
 void monte_carlo_minimizer::set_num_samples(size_t num_samples)

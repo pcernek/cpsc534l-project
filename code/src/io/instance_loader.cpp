@@ -16,8 +16,7 @@ instance instance_loader::load_instance_from_file(const std::string &filename)
     std::ifstream in_file(filename);
     if (!in_file.is_open())
     {
-        WARN("Unable to open file " << filename);
-        throw std::exception();
+        ERROR("Unable to open file " << filename);
     }
 
     size_t num_nodes, num_skills, num_candidates;
@@ -149,7 +148,7 @@ node_set_t instance_loader::load_candidates(std::ifstream &in_file,
             WARN("Encountered candidate id greater than number of total nodes!");
             continue;
         }
-        candidates.add(all_nodes.array()[candidate_id]);
+        candidates.add(all_nodes.get(candidate_id));
     }
 
     return candidates;

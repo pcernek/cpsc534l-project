@@ -16,3 +16,6 @@ target_link_libraries(run_mc_mc ${SRC_LIB})
 
 add_executable(run_greedy_mc ${PROGRAM_DIR}/run_greedy_mc.cpp)
 target_link_libraries(run_greedy_mc ${SRC_LIB})
+
+add_executable(run_${PROBLEM_NAME} ${PROGRAM_DIR}/headhunter.cpp)
+target_link_libraries(run_${PROBLEM_NAME} ${SRC_LIB})

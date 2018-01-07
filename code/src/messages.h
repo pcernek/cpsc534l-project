@@ -13,6 +13,8 @@
 
 #define WARN(args) std::cerr << "WARNING: " << args << std::endl;
 
+#define ERROR(args) std::cerr << "ERROR: " << args << std::endl; throw std::exception();
+
 #ifdef HEADHUNTER_DEBUG
     #define DEBUG(args) std::cout << args << std::endl;
 #else
