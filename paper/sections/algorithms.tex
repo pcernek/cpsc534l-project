@@ -2,7 +2,7 @@ We aim to solve the hiring problem with a submodular utility function and a modu
 Formally, the class of problem they address has the following form:
 
 \begin{equation}\label{prob:RS-min}
-	\underset{\emptyset \subset X \subseteq V}{\min} \frac{f(X)}{g(X)}
+    \underset{\emptyset \subset X \subseteq V}{\min} \frac{f(X)}{g(X)}
 \end{equation}
 
 where $ f $ and $ g $ are monotone non-decreasing submodular functions.
@@ -13,35 +13,35 @@ While \cite{bai2016algorithms} solves a minimization problem they point out that
 In \cite{bai2016algorithms} they additionally investigated solutions for when one or both of $f$ and $g$ are modular functions. For our purposes we use $f=\cost$ and $g=\util$, thus our problem falls into the minimization of modular $f$ and submodular $g$ 
 
 \begin{property}
-	\label{prop:mod-f-submod-g}
-	Modular $ f $ and submodular $ g $
+    \label{prop:mod-f-submod-g}
+    Modular $ f $ and submodular $ g $
 \end{property}
 
 When $ f $ is modular and $ g $ is submodular, they show that the natural greedy algorithm (explicitly formulated as Algorithm \ref{alg:greed-ratio}) gives the following approximation:
 \begin{equation}
-	\label{eq:greedy-approx}
-	\frac{f(\hat{X})}{g(\hat{X})} \leq \frac{e}{e - 1} \frac{f(X^*)}{g(X^*)}
+    \label{eq:greedy-approx}
+    \frac{f(\hat{X})}{g(\hat{X})} \leq \frac{e}{e - 1} \frac{f(X^*)}{g(X^*)}
 \end{equation}
  
 \input{algorithms/greedy}
 
 
-While this GreedyRatio scheme provides an effective approximation for our variant of team formation it does not solve the our optimization problem $\max \mathbb{E}[TF(G,\task)]$. This is due to that fact that the expectation of the team formation problem is no longer the ratio of submodular functions, but a non-negative linear combination of ratios of submodular functions for which there currently exists no optimization approach. 
+While this GreedyRatio scheme provides an effective approximation for our variant of team formation it does not solve our optimization problem $\max \mathbb{E}[TF(G,\task)]$. This is due to that fact that the expectation of the team formation problem is no longer the ratio of submodular functions, but a non-negative linear combination of ratios of submodular functions for which there currently exists no optimization approach. 
 
-While the problem statement is general for arbitrary hiring costs, we implement a variant dealing with unit costs. This simplifies the implementation but can be dealt with as seen in class by running a greedy once on the ratio of the cost and the benefit and once without costs and taking the better of the two. In the case that the function being optimized is submodular this provides a better approximation guarantee. While our algorithm does not have an approximation guarantee this approach will still provide better solutions. 
+While the problem statement is general for arbitrary hiring costs, we implement a variant dealing with unit costs. This simplifies the implementation but can be dealt with as seen in the class by running a greedy once on the ratio of the cost and the benefit and once without costs and taking the better of the two. In the case that the function being optimized is submodular this provides a better approximation guarantee. While our algorithm does not have an approximation guarantee this approach will still provide better solutions. 
 
-This problem can be solved exactly using brute force search, however this approach is exponential and infeasible for even modestly sized organizations and task distributions. We propose instead four approaches mixing Monte Carlo Simulation and greedy approaches: 
+This problem can be solved exactly using brute force search, however, this approach is exponential and infeasible for even modestly sized organizations and task distributions. We propose instead four approaches mixing Monte Carlo Simulation and greedy approaches: 
 
 \begin{enumerate}
-	\item Greedy + RS
-	\item MC + RS
-	\item Greedy + MC
-	\item MC + MC
+    \item Greedy + RS
+    \item MC + RS
+    \item Greedy + MC
+    \item MC + MC
 \end{enumerate}
 
 Where first of the pair is the method used to solve the total optimization problem, and the second is the method used to solve the team formation optimization (the inner optimization).
 
 \input{algorithms/greedyRS}
 
-Both variants of the outer greedy could perform arbitrarily poorly due to its dependence on the curvature of the function. However we expect in practice that this will perform well, and that under certain assumptions on the functions used and the distribution of the tasks that this curvature can be bounded. Additionally this problem can be solved exactly using brute force, however this is intractable for even modest sized problems. Instead Monte Carlo sampling is used which in the limit approaches brute force, and as such has a large dependence on the number of samples performed.  
+Both variants of the outer greedy could perform arbitrarily poorly due to its dependence on the curvature of the function. However, we expect in practice that this will perform well and that under certain assumptions on the functions used and the distribution of the tasks that this curvature can be bounded. Additionally this problem can be solved exactly using brute force, however, this is intractable for even modest sized problems. Instead Monte Carlo sampling is used which in the limit approaches brute force, and as such has a large dependence on the number of samples performed.  
 

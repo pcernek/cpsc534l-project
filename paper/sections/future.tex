@@ -1,18 +1,18 @@
 \subsection{Unknown Edge Weights}
 
-A major limitation is our assumption that the communication costs between all candidates as well as the existing organization are known prior. While this assumption is likely fair in terms the firing problem and possibly even the assassination problem, it is unrealistic in terms of hiring. To mitigate this organizations aiming to use this approach might require candidates to perform exploratory tasks so as to evaluate their communication costs for the organizations specific needs. Alternatively one could define a similarity measure on people and use it was an approximation for communication costs, but the efficacy of this approach will be domain specific and depend on the quality of the similarity measure. Intuitively hiring people is often much harder than firing people. The heart of this difference lies in the incomplete knowledge inherit to the hiring problem, and we are hopeful that our approach could be adapted to mitigate this difficulty. 
+A major limitation is our assumption that the communication costs between all candidates as well as the existing organization are known prior. While this assumption is likely fair in terms the firing problem and possibly even the assassination problem, it is unrealistic in terms of hiring. To mitigate this, organizations aiming to use this approach might require candidates to perform exploratory tasks so as to evaluate their communication costs for the organization's specific needs. Alternatively, one could define a similarity measure on people and use it was an approximation for communication costs, but the efficacy of this approach will be domain specific and depend on the quality of the similarity measure. Intuitively hiring people is often much harder than firing people. The heart of this difference lies in the incomplete knowledge inherited to the hiring problem, and we are hopeful that our approach could be adapted to mitigate this difficulty. 
 
 \subsection{Communication Cost}
 
-While constraining our choice of cost function to a per node weight makes the cost modular and thus more tractable, it also ignores most of the graph structure that we would like to exploit. In \cite{bai2016algorithms} they present two additional approaches for optimization the ratio where both functions are submodular. We propose three possible extensions to address this. 
+While constraining our choice of the cost function to a per-node weight makes the cost modular and thus more tractable, it also ignores most of the graph structure that we would like to exploit. In \cite{bai2016algorithms} they present two additional approaches for optimization the ratio where both functions are submodular. We propose three possible extensions to address this. 
 
 \subsubsection{Intra-team Communication}
 
-To measure how well a team communicates with itself we propose using the maximum cut. The maximum cut is NP-Hard to compute exactly, however it is both submodular and bounded approximations exist. 
+To measure how well a team communicates with itself we propose using the maximum cut. The maximum cut is NP-Hard to compute exactly, however, it is both submodular and bounded approximations exist. 
 
 \subsubsection{Inter-team Communication}
 
-While inter-team communication, that is the communication between the team and the rest of the organization, is not examined in the Team Formation literature there are use cases where this cost may dominate that of the intra-team communication. An example of this could be if the team is to be deployed remotely (e.g. on Mars) and communicating back to the organization incurs great cost. To measure this communication cost we propose again using the cut function which is again submodular, and is also extremely easy to compute (by just summing edge weights that cross the cut).
+While inter-team communication, that is the communication between the team and the rest of the organization, is not examined in the Team Formation literature there are use cases where this cost may dominate that of the intra-team communication. An example of this could be if the team is to be deployed remotely (e.g. on Mars) and communicating back to the organization incurs a great cost. To measure this communication cost we propose again using the cut function which is again submodular and is also extremely easy to compute (by just summing edge weights that cross the cut).
 
 \subsubsection{Use Non-submodular Communication Costs}
 
@@ -20,7 +20,7 @@ Any function can be used to measure the communication cost or the utility for a 
 
 \subsection{Load balancing}
 
-We ignore load balancing aspect all together in our studied objectives. However in an organization availability of the employees will always be constrained. Hence it is important to not to select the same set of people for every task. Load balancing in team formation have been studied in literature \cite{wang2016ustf,liu2017simple}. Extending those in light of organization and the objectives we presented, will be an exciting direction to explore. 
+We ignore load balancing aspect all together in our studied objectives. However in an organization availability of the employees will always be constrained. Hence it is important to not to select the same set of people for every task. Load balancing in team formation has been studied in literature \cite{wang2016ustf,liu2017simple}. Extending those in light of organization and the objectives we presented, will be an exciting direction to explore. 
 
 \subsubsection{Non-uniform Task Values}
 
@@ -28,10 +28,10 @@ A simple extension which should not impact the theory of the problems would be t
 
 \subsubsection{Additional Datasets}
 
-While the DBLP dataset gives us a rich dataset to test our code on it does not really capture the spirit of the team formation problem well. It would be worthwhile to validate our approach on more varied real world datasets as well as potentially synthetic data sets. Further experimentation could also explore the effect of the relationship between the distribution of skills in the tasks and the distribution of skills within the network. 
+While the DBLP dataset gives us a rich dataset to test our code on it does not really capture the spirit of the team formation problem well. It would be worthwhile to validate our approach to more varied real-world datasets as well as potentially synthetic data sets. Further experimentation could also explore the effect of the relationship between the distribution of skills in the tasks and the distribution of skills within the network. 
 
 \subsection{Implementation Optimizations}
 
-Currently to demonstrate proof of concept the algorithms have not been optimized for performance. Given that some sub-problems are calculated more than once our approach would likely benefit from memoization, and potentially an efficient DP solution exists. Additionally as with the regular greedy algorithm lazy evaluation could be used to improve performance. 
+Currently to demonstrate proof of concept the algorithms have not been optimized for performance. Given that some sub-problems are calculated more than once our approach would likely benefit from memoization, and potentially an efficient DP solution exists. Additionally, as with the regular greedy algorithm, lazy evaluation could be used to improve performance. 
 
   

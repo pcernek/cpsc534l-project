@@ -1,4 +1,4 @@
-In this section we formally define the notation and the problem we will be dealing with.
+In this section, we formally define the notation and the problem we will be dealing with.
 \subsection{Set-up}
 
 \subsubsection{Person and skill}
@@ -21,7 +21,7 @@ Most organizations cannot predict in advance the exact requirements of the tasks
 We model this uncertainty using a task distribution $\tasks$. 
 A task $\task \sim \tasks$ is associated with a probability.
 Define $Pr[\task]$ to denote the probability with which the organization will be required to complete the task $\task$. 
-%As the organization wishes to maximize the number of tasks it completes, it naturally places higher priority on being able to complete high probability tasks.
+%As the organization wishes to maximize the number of tasks it completes, it naturally places a higher priority on being able to complete high probability tasks.
 
 
 \subsubsection{Communication Cost}
@@ -46,7 +46,7 @@ Equipped with these definitions, we are now ready to formally introduce the prob
 
 \subsection{Problems}
 
-In this section we present the problems we studied and analyze the connections between them. For the ease of exposition, we define the hiring problem first i.e., given a set of candidates and a hiring budget, who do we expect to be the best candidates to hire. The other problems (i.e. firing, assassination and bad hiring) are described using the same notations. We formally state each problem so that their symmetry can be clearly seen.
+In this section, we present the problems we studied and analyze the connections between them. For the ease of exposition, we define the hiring problem first i.e., given a set of candidates and a hiring budget, who do we expect to be the best candidates to hire. The other problems (i.e. firing, assassination and bad hiring) are described using the same notations. We formally state each problem so that their symmetry can be clearly seen.
 
 \subsubsection{Hiring problem}
 
@@ -60,7 +60,7 @@ $$ G=\hiredset  \cup X \quad c_H(X) \le B \quad X \subseteq C $$\\
 Where $c_H(X) = \sum_{x \in X} c_H(x)$ is the hiring cost of the set X.\\
  
 \end{problem}
-	
+    
 We now show that $HireMax$ is NP-Hard.
 
 \begin{theorem} \label{thm:HM-hardness}
@@ -73,23 +73,23 @@ It is easy to see that to solve this problem we must solve the underlying team f
 
 \subsubsection{Alternative Formulations}
 
-From the formulation of the hiring problem three alternative problems naturally present themselves. The one which is naturally counter to hiring, is the problem of firing existing employees is presented below.  
+From the formulation of the hiring problem, three alternative problems naturally present themselves. The one which is naturally opposite to hiring is the problem of firing existing employees is presented below.  
 
-Given an organization $\hireset$, a candidate pool $\candidates$ (often the whole organization), and a quota $Q$ we aim to fire a subset  of $\candidates$ such that we free up at least $Q$ of our budget quota and we do the least damage to the organization's value. Formally find a set $X$ that, 
+Given an organization $\hireset$, a candidate pool $\candidates$ (often the whole organization), and a quota $Q$ we aim to fire a subset of $\candidates$ such that we free up at least $Q$ of our budget quota and we do the least damage to the organization's value. Formally find a set $X$ that, 
 
 $$ \min \mathbb{E}[TF(G,\task)] $$
 $$ G = \hiredset \setminus X \quad Q \le c_H(X) \quad  X \subseteq C $$
 
-The third version of the problem deals with the rivalry between two organizations. An organization could be trying to assassinate some subset of the $\candidates$, from a rival organization so that the most damage is done in terms of rivals value. Again $B$ denotes the budget that can be spent on assassination, $C$ is the candidate set that can be assassinated. Then the objective is to find a set $X$, such that
+The third version of the problem deals with the rivalry between two organizations. An organization could be trying to assassinate some subset of the $\candidates$, from a rival organization so that the most damage is done in terms of rivals value. Again $B$ denotes the budget that can be spent on the assassination, $C$ is the candidate set that can be assassinated. Then the objective is to find a set $X$, such that
 
 $$ \max \mathbb{E}[TF(G,\task)] $$
 $$ G = \hiredset \setminus X \quad c_H(X) \le B \quad  X \subseteq C $$
 
-Our last problem follows by the symmetry, but does not have a strong motivation, is hiring a set of candidates that adds minimum value to the organization. Here a budget quota $Q$ is given that denotes the number of bad hires that has to be made from a candidate set $C$. Thus formally the goal is to find a set $X$ such that,
+Our last problem follows by the symmetry, but does not have a strong motivation, is hiring a set of candidates that adds minimum value to the organization. Here a budget quota $Q$ is given that denotes the number of bad hires that have to be made from a candidate set $C$. Thus formally the goal is to find a set $X$ such that,
 
 $$ \min \mathbb{E}[TF(G,\task)] $$
 $$ G = \hiredset \cup X \quad Q \le c_H(X) \quad  X \subseteq C $$
 
 \subsubsection{A remark on the hardness of the alternative formulations}
 
-Note that in all three versions we still need to solve the central team formation problem optimally. Thus the core argument of  the proof of theorem \ref{thm:HM-hardness} carries forward - under constant cost we need to maximize the coverage function, which is NP-hard. Hence all these three problems are NP-hard.
+Note that in all three versions we still need to solve the central team formation problem optimally. Thus the core argument of the proof of theorem \ref{thm:HM-hardness} carries forward - under constant cost we need to maximize the coverage function, which is NP-hard. Hence all these three problems are NP-hard.
