@@ -3,19 +3,24 @@
 Following in the footsteps of much previous work in this area \cite{lappas2009finding, kargar2011discovering, bhowmik2014submodularity}, we run our experiments on the DBLP dataset.
 DBLP consists of a long list of academic publications in computer science.
 We take each author to represent a node; authors that appear as coauthors are considered to have lower communication cost.
-Specifically, the communication cost between authors $ A $ and $ B $ is $ 1 - \frac{| \left\{ p \in P, author(A, p) \land author(B, p) \right\} |}{| \left\{ p \in P, author(A, p) \lor author(B, p) \right\} |} $, where $ P $ is the set of all papers in the database, and the predicate $ author(X, p) $ is true precisely when author $ X $ appears as an author on paper $ p $.
+Specifically, the communication cost between authors $ A $ and $ B $ is given as,
+\begin{equation}\label{eqn:ccost}
+1 - \frac{| \left\{ p \in P, author(A, p) \land author(B, p) \right\} |}{| \left\{ p \in P, author(A, p) \lor author(B, p) \right\} |}
+\end{equation}
+In equation \ref{eqn:ccost} $ P $ denotes the set of all papers in the database, and the predicate $ author(X, p) $ is true precisely when author $ X $ appears as an author on paper $ p $.
+
 The skills of an author correspond to the ``key words'' of the titles of the papers on which they are authors; while we were unable to find a precise definition of ``key word'' in any previous work, we opted to exclude ``connecting'' words like ``and'', ``the'', ``of'', etc. from the space of possible skills.
-To determine the skill distribution, we assumed independence between skills, such that the probability of a particular skill $ s $ appearing in a task is $ \frac{count(s)}{\sum_{s' \in \mathcal{S}} count(s')} $.
-At runtime, to achieve tractability of inference, the calculation of expectation over tasks was simplified by applying a threshold of 0.005; skills more likely than this had their probability raised to 1.0, and those below the threshold were set to 0.0 probability.
+To determine the skill distribution, we assumed independence between skills, such that the probability of a particular skill $ s $ appearing in a task is $ \frac{count(s)}{\sum_{s' \in \mathcal{S}} count(s')} $, where $count(s)$ denotes the number of authors in the dataset that have the skill $s$.
+At runtime, to achieve tractability of the inference, the calculation of expectation over tasks was simplified by applying a threshold of $0.005$. Skills that have probabilities below the threshold are deemed noisy and their probabilities were set to $0.0$.
 
 In similar fashion to the previous studies on the Team Formation problem, we filter papers to those published in the following venues: "journal/sigmod", "conf/vldb", "conf/icde", "conf/icdt", "conf/edbt", "conf/pods", "conf/kdd", "conf/www", "conf/sdm", "conf/pkdd", "conf/icdm", "conf/icml", "conf/ecml", "conf/colt", "conf/uai", "conf/soda", "conf/focs", "conf/stoc", "conf/stacs".
-Then, also in keeping with previous work, we filtered authors to those that had 3 or more publications.
+Then, also in keeping with previous work, we filtered authors to those who had 3 or more publications.
 In an additional step, in distinction to previous work, we limit authors to a maximum of 10 skills.
-The space of all possible skills, $ \mathcal{S} $, is limited only to those skills that are had by at least 1 author in the remaining set.
+The space of all possible skills, $ \mathcal{S} $, is limited only to those skills that are possessed by at least one author in the remaining set.
 
 \subsection{Configuration}
 
-The number of samples used for the Monte Carlo search for the inner and outter optimization subroutines are listed in the table below.
+Recall that in our objectives we have two layers of optimization. In section \ref{sec:algos} we stated that four possible candidate algorithms to optimize over the objectives. The inner optimization can be performed using the greedy choice of ratio of submodular function (RS), as proposed by the authors of \cite{bai2016algorithms}. Alernatively one can simply use Monte Carlo (MC) search for that. For the outer optimization we can again use MC or perform a greedy selection. In the following table, the number of samples used for the Monte Carlo search for the inner and outter optimization subroutines are listed for all four possible choices. The first option denotes the option chosen for the outer optimization, the second corresponds to the inner one.
 
 \begin{center}
 	\begin{tabular}{ c|c|c } 
