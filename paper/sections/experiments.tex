@@ -91,3 +91,13 @@ Hence, we investigate the effect of varying budget size on solution quality.
 We keep the size of the candidate pool consistent at 16 candidates, and select from a hiring budget of 1, 3, 7, 12, or 15 candidates.
 All other parameters are the same as those in Section \ref{section:num-candidates}.
 Results are presented in Figure \ref{fig:budget}.
+
+The trends in Figure \ref{fig:budget}(a) are similar to those seen in Figure \ref{fig:num-candidates}(a) (analyzed above), with the biggest apparent difference being in the scaling of the y-axis.
+This is simply a result of not considering the larger team size of 32, which was responsible for the sharp jump in solution badness for \texttt{mc\_mc} in Figure \ref{fig:num-candidates}(a).
+
+Slightly more interesting is the left side of Figure \ref{fig:budget}(b), where the two algorithms employing Monte Carlo search for candidate subset selection experience a sharp spike.
+This is explainable by the na\"iveness of the sampling algorithm they employ---if a sample is drawn that violates the budget constraint (i.e. too many candidates are included in it), then that sample is thrown out and a new one is generated, etc.
+Samples that are rejected in this way are not counted towards the total number of samples required for that algorithm.
+For tight constraints, such as hiring only a single candidate out of 16, this means that most samples will be thrown out, and hence the algorithm will spend a long time searching for samples that satisfy the budget constraint.
+
+Once again, \texttt{mc\_rs} emerges as the victor in terms of both optimality and efficiency.
