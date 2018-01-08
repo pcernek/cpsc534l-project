@@ -20,8 +20,8 @@ with open(results_file_path, 'r') as fd:
 for algo, algo_data in data["series"].items():
   x_vals = []
   y_vals = []
-  for num_candidates_str, run_info in algo_data.items():
-    x = int(num_candidates_str)
+  for budget_str, run_info in algo_data.items():
+    x = int(budget_str)
     y = np.mean([trial["results"]["value"] for trial in run_info["trials"]])
     x_vals.append(x)
     y_vals.append(y)
@@ -29,8 +29,8 @@ for algo, algo_data in data["series"].items():
   plt.plot(x_vals, y_vals, 'o-', label=algo)
 
 plt.legend()
-plt.title("Solution quality vs. number of candidates")
-plt.xlabel("Number of candidates")
+plt.title("Solution quality vs. budget")
+plt.xlabel("Budget")
 plt.ylabel("Solution quality")
 
 if save_plot:
