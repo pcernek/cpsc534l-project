@@ -1,11 +1,9 @@
 We aim to solve the hiring problem with a submodular utility function and a modular cost function as such this problem becomes an instance of optimizing the ratio of monotone (sub)modular set functions. As such we base our approach in part off of \cite{bai2016algorithms}, which gives guarantees for approximation algorithms to optimize the ratio of submodular functions.
 Formally, the class of problem they address has the following form:
 
-\begin{problem}
-	\label{prob:RS-min}
-	\[ \underset{\emptyset \subset X \subseteq V}{\min} \frac{f(X)}{g(X)}
-	\]
-\end{problem}
+\begin{equation}\label{prob:RS-min}
+	\underset{\emptyset \subset X \subseteq V}{\min} \frac{f(X)}{g(X)}
+\end{equation}
 
 where $ f $ and $ g $ are monotone non-decreasing submodular functions.
 For convenience, as in \cite{bai2016algorithms}, we use the shorthand RS (short for ratio of submodular functions) to denote any objective that has the form $ \frac{f(A)}{g(A)} $.
