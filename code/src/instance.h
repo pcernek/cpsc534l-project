@@ -35,12 +35,12 @@ struct instance
      * If you want to search over the entire set, just set the candidate nodes equal to
      * the set of all nodes in the graph.
      */
-    const node_set_t candidates;
+    node_set_t candidates;
 
     /**
      * Budget with which to hire
      */
-    const value_t budget;
+    value_t budget;
 };
 
 typedef std::shared_ptr<instance> instance_t;

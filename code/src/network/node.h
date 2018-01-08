@@ -92,8 +92,7 @@ public:
     {
         if (idx >= array_.size())
         {
-            WARN("Index out of bounds in current node set: got " << idx << ", but max index is " << array_.size() - 1);
-            throw std::exception();
+            ERROR("Index out of bounds in current node set: got " << idx << ", but max index is " << array_.size() - 1);
         }
         return array_[idx];
     }
@@ -125,6 +124,12 @@ public:
         }
         array_.erase(std::remove(array_.begin(), array_.end(), n));
         set_.erase(n);
+    }
+
+    void clear()
+    {
+        array_.clear();
+        set_.clear();
     }
 
     size_t size() const
