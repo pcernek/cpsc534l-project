@@ -28,6 +28,8 @@ When $ f $ is modular and $ g $ is submodular, they show that the natural greedy
 
 While this GreedyRatio scheme provides an effective approximation for our variant of team formation it does not solve the our optimization problem $\max \mathbb{E}[TF(G,\task)]$. This is due to that fact that the expectation of the team formation problem is no longer the ratio of submodular functions, but a non-negative linear combination of ratios of submodular functions for which there currently exists no optimization approach. 
 
+While the problem statement is general for arbitrary hiring costs, we implement a variant dealing with unit costs. This simplifies the implementation but can be dealt with as seen in class by running a greedy once on the ratio of the cost and the benefit and once without costs and taking the better of the two. In the case that the function being optimized is submodular this provides a better approximation guarantee. While our algorithm does not have an approximation guarantee this approach will still provide better solutions. 
+
 This problem can be solved exactly using brute force search, however this approach is exponential and infeasible for even modestly sized organizations and task distributions. We propose instead four approaches mixing Monte Carlo Simulation and greedy approaches: 
 
 \begin{enumerate}

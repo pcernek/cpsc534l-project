@@ -10,12 +10,14 @@
 		\State $S \leftarrow \emptyset, G \leftarrow H$
 		
 		\While{ $C \ne \emptyset$ }
-			\State $c* \leftarrow \arg \max_{c \in C} GreedyRatio(f=cost,g=util,V=G+c)$
+			\State $c^* \leftarrow \arg \max_{c \in C} GreedyRatio(f=cost,g=util,V=G+c)$
 			
-			\If{ $ c_H(S)+c_H(c*) \le B $ }
-				\State $S \leftarrow S + c* $
+			\If{ $ c_H(S)+c_H(c^*) \le B $ }
+				\State $S \leftarrow S + c^* $
+				\State $G \leftarrow G + c^* $
 			\EndIf
-			\State $C \leftarrow C - c*$
+			\State $C \leftarrow C - c^*$
 		\EndWhile
+		\State Return $G$
 	\end{algorithmic}
 \end{algorithm}

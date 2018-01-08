@@ -22,6 +22,14 @@ Any function can be used to measure the communication cost or the utility for a 
 
 We ignore load balancing aspect all together in our studied objectives. However in an organization availability of the employees will always be constrained. Hence it is important to not to select the same set of people for every task. Load balancing in team formation have been studied in literature \cite{wang2016ustf,liu2017simple}. Extending those in light of organization and the objectives we presented, will be an exciting direction to explore. 
 
+\subsubsection{Non-uniform Task Values}
+
+A simple extension which should not impact the theory of the problems would be to associate with each task some type of reward or cost that can be taken into account in the objective. 
+
+\subsubsection{Additional Datasets}
+
+While the DBLP dataset gives us a rich dataset to test our code on it does not really capture the spirit of the team formation problem well. It would be worthwhile to validate our approach on more varied real world datasets as well as potentially synthetic data sets. Further experimentation could also explore the effect of the relationship between the distribution of skills in the tasks and the distribution of skills within the network. 
+
 \subsection{Implementation Optimizations}
 
 Currently to demonstrate proof of concept the algorithms have not been optimized for performance. Given that some sub-problems are calculated more than once our approach would likely benefit from memoization, and potentially an efficient DP solution exists. Additionally as with the regular greedy algorithm lazy evaluation could be used to improve performance. 
