@@ -4,7 +4,7 @@
 	\begin{algorithmic}[1]
 		\renewcommand{\algorithmicrequire}{\textbf{Input:}}
 		\renewcommand{\algorithmicensure}{\textbf{Output:}}
-		\Require $ f $ and $ g $
+		\Require $ f $, $ g $, and the ground set $V$
 		\Ensure An approximation solution $ \hat{X} $
 		
 		\State Initialize: $ X_0 \leftarrow \emptyset $, $ R \leftarrow V $ and $ i \leftarrow 0 $
@@ -19,3 +19,5 @@
 		\State Return $ \hat{X} \leftarrow X_{i^*} $
 	\end{algorithmic}
 \end{algorithm}
+
+

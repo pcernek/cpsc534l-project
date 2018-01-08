@@ -35,18 +35,13 @@ In our paper, however, we start with a simpler cost, which is just the sum of no
 Unlike communication cost, the utility of a subset of individuals depends on the task they aim to perform. 
 For a task $\task$, coverage $\cov(\persons,\task)$ is the subset of skills that a team $\persons$ possess.
 More formally $\cov(\persons,\task) = |\skill(\persons) \cap \task|$.
-The utility of a team $ \persons $ is $\util(\persons,\task) = \frac{\cov(\persons, \task)}{|\task|}$.
-
-To take into account the conflicting objectives of maximizing the utility of completing the task and minimizing the communication cost of the given team, we introduce the notion of value. We define the value of a team to be the ratio of the utility over the cost and maximize this value. Notice that maximizing the ratio of two functions is equivalent to minimizing their reciprocal.  
-
-We define the value of a task for a given organization (graph) $G$ as $TF(G,\task) = \max_{\persons \subseteq G}{val(\persons,\task)}$. We can now extend the notion of value to the expected value of a team over the task distribution. There we define $val(\persons,\task)$ to be $\frac{\util(\persons,\tasks)}{cost(\persons)} $
-
+The utility of a team $ \persons $ is $\util(\persons,\task) = \frac{\cov(\persons, \task)}{|\task|}$.\\
+To take into account the conflicting objectives of maximizing the utility of completing the task and minimizing the communication cost of the given team, we introduce the notion of value. We define the value of a team to be the ratio of the utility over the cost and maximize this value. Notice that maximizing the ratio of two functions is equivalent to minimizing their reciprocal. \\
+We define the value of a task for a given organization (graph) $G$ as $TF(G,\task) = \max_{\persons \subseteq G}{val(\persons,\task)}$. We can now extend the notion of value to the expected value of a team over the task distribution. There we define $val(\persons,\task)$ to be $\frac{\util(\persons,\tasks)}{cost(\persons)} $ \\
 Thus the expected value for the organization over the task distribution is said to be as follows.
 
 $$\mathbb{E}[TF(G,\task)] = max_{\persons \subseteq G} \left\{ \frac{\sum_{\task \sim \tasks } Pr[\task] \times \util(\persons, \task)} {\cost(\persons)} \right\} $$ \\
-
-Note that the numerator is a non-negative linear combination of a monotone submodular function and is also submodular.
-
+Note that the numerator is a non-negative linear combination of a monotone submodular function and is also submodular.\\
 Equipped with these definitions, we are now ready to formally introduce the problems that we study in this paper.
 
 \subsection{Problems}
@@ -58,12 +53,11 @@ In this section we present the problems we studied and analyze the connections b
 For this problem we consider as input: an existing organization of people $\hiredset$, a candidate pool $\candidates$ from which to select new hires to the organization, and a budget $B$ that denotes the maximum amount that can be spent on hiring candidates.
 We use cost and utility functions as defined above to define the problem generally as follows:
 \begin{problem}
-[HireMax] Given $\hiredset$, communication cost $\cost$ between every pair of individuals, a distribution of tasks $\tasks$ and a budget $B$, hire a candidate set $X$ that maximizes our organizations expected value and does not exceed our hiring budget. Thus find a $X$ such that,
+[HireMax] Given $\hiredset$, communication cost $\cost$ between every pair of individuals, a distribution of tasks $\tasks$ and a budget $B$, hire a candidate set $X$ that maximizes our organizations expected value and does not exceed our hiring budget. Thus find a $X$ such that
 
 $$ \max \mathbb{E}[TF(G,\task)]  $$
-$$ G=\hiredset  \cup X \quad c_H(X) \le B \quad X \subseteq C $$
-
-where $c_H(X) = \sum_{x \in X} c_H(x)$ is the hiring cost of the set X.
+$$ G=\hiredset  \cup X \quad c_H(X) \le B \quad X \subseteq C $$\\
+Where $c_H(X) = \sum_{x \in X} c_H(x)$ is the hiring cost of the set X.\\
  
 \end{problem}
 	
