@@ -1,0 +1,21 @@
+
+\begin{algorithm}
+	\caption{ GreedyRS Optimizaion }
+	\label{alg:greed-RS}
+	\begin{algorithmic}[1]
+		\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+		\renewcommand{\algorithmicensure}{\textbf{Output:}}
+		\Require Organizaiton $ H $, candidate set $ C $, budget $ B $
+		\Ensure G the resulting organization after hiring
+		\State $S \leftarrow \emptyset, G \leftarrow H$
+		
+		\While{ $C \ne \emptyset$ }
+			\State $c* \leftarrow \arg \max_{c \in C} GreedyRatio(f=cost,g=util,V=G+c)$
+			
+			\If{ $ c_H(S)+c_H(c*) \le B $ }
+				\State $S \leftarrow S + c* $
+			\EndIf
+			\State $C \leftarrow C - c*$
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}

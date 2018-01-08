@@ -24,32 +24,22 @@ When $ f $ is modular and $ g $ is submodular, they show that the natural greedy
 \end{equation}
  
 \input{algorithms/greedy}
- 
-\eat{ 
-\begin{property}
-	\label{prop:submod-f-mod-g}
-	Submodular $ f $ and modular $ g $
-\end{property}
-Conversely, for submodular $ f $ and modular $ g $, the authors leverage the relationship between RS minimization, and the minimization of the difference of submodular functions (DS). Formally, DS minimization may be described as the following optimization problem:
-\begin{problem}
-	\label{prob:DS-min}
-	\[
-	\underset{X \subseteq V}{\min} \left[ f(X) - \lambda g(X) \right]
-	\]
-\end{problem}
-for $ \lambda \geq 0 $.
-In \cite{bai2016algorithms}, it is shown that an exact algorithm for DS minimization can be used as a subroutine to solve RS minimization via a binary search scheme, as described in Algorithm \ref{alg:binary-search}.
-This relationship provides the foundation for the following observation, also derived in \cite{bai2016algorithms}:
-\begin{theorem}
-	When $ f $ is submodular and $ g $ is modular, using an exact submodular minimization algorithm as a subroutine, Algorithm \ref{alg:binary-search} provides a $ (1 + \epsilon) $-approximation for RS minimization in $ O(\log(1/\epsilon)) $ calls to the subroutine.
-\end{theorem}
 
-\input{algorithms/binary_search}
-
-Although in general, DS minimization is not tractable \cite{iyer2012algorithms}, it is pointed out in \cite{bai2016algorithms} that, under the conditions of submodular $ f $ and modular $ g $, the DS minimization problem as formulated in Problem \ref{prob:DS-min} becomes an instance of submodular minimization, and hence can be solved exactly optimally in polynomial time.
-}
 
 While this GreedyRatio scheme provides an effective approximation for our variant of team formation it does not solve the our optimization problem $\max \mathbb{E}[TF(G,\task)]$. This is due to that fact that the expectation of the team formation problem is no longer the ratio of submodular functions, but a non-negative linear combination of ratios of submodular functions for which there currently exists no optimization approach. 
 
-This problem can be solved exactly using brute force search, however this approach is exponential and infeasible for even modestly sized organizations and task distributions. We propose instead two approaches. First is to greedily optimize the outer function. This could perform arbitrarily poorly due to its dependence on the curvature of the function. However we expect in practice that this will perform well, and that under certain assumptions on the functions used and the distribution of the tasks that this curvature can be bounded. Second is to perform Monte Carlo Simulation (MC) to approximate a brute force search.  
+This problem can be solved exactly using brute force search, however this approach is exponential and infeasible for even modestly sized organizations and task distributions. We propose instead four approaches mixing Monte Carlo Simulation and greedy approaches: 
+
+\begin{enumerate}
+	\item Greedy + RS
+	\item MC + RS
+	\item Greedy + MC
+	\item MC + MC
+\end{enumerate}
+
+Where first of the pair is the method used to solve the total optimization problem, and the second is the method used to solve the team formation optimization (the inner optimization).
+
+\input{algorithms/greedyRS}
+
+Both variants of the outer greedy could perform arbitrarily poorly due to its dependence on the curvature of the function. However we expect in practice that this will perform well, and that under certain assumptions on the functions used and the distribution of the tasks that this curvature can be bounded. Additionally this problem can be solved exactly using brute force, however this is intractable for even modest sized problems. Instead Monte Carlo sampling is used which in the limit approaches brute force, and as such has a large dependence on the number of samples performed.  
 
