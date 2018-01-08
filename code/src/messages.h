@@ -11,6 +11,8 @@
 
 #define INFO(args) std::cout << args << std::endl;
 
+#define RESULT(args) std::cout << "[RESULT] " << args << std::endl;
+
 #define WARN(args) std::cerr << "WARNING: " << args << std::endl;
 
 #define ERROR(args) std::cerr << "ERROR: " << args << std::endl; throw std::exception();

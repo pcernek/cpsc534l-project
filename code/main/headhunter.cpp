@@ -19,6 +19,7 @@
 #include <function/cost_wrapper.h>
 #include <optimize/hiring_budget_constraint.h>
 #include <chrono>
+#include <sstream>
 #include "instance.h"
 #include "io/instance_loader.h"
 
@@ -204,17 +205,19 @@ int main(int argc, char* argv[]) {
     const auto &result = m->minimize(objective, tf.candidates);
     auto end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end-start;
-    INFO("Elapsed time (s): " << elapsed_seconds.count());
+    RESULT("Elapsed time (s): " << elapsed_seconds.count());
 
     value_t opt_value = result.first;
     const auto &best = result.second;
 
-    INFO("Top " << tf.budget << " candidates: ");
+    // Make a results string
+    std::ostringstream candidate_id_accumulator;
     for (const auto &c : best.array())
     {
-        INFO(std::to_string(c->id));
+        candidate_id_accumulator << std::to_string(c->id) << " ";
     }
+    RESULT("Top candidates: " << candidate_id_accumulator.str());
 
-    INFO("...with a value of " << opt_value);
+    RESULT("Value of objective: " << opt_value);
     return 0;
 }
