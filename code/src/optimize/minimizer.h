@@ -15,7 +15,7 @@ namespace hh
 class minimizer
 {
 public:
-    virtual std::pair<value_t, node_set_t> minimize(set_function_t f, const node_set_t &ground_set) = 0;
+    virtual std::pair<value_t, node_set_t> minimize(set_function_t f, const node_set_t &candidates) = 0;
 };
 
 typedef std::shared_ptr<minimizer> minimizer_t;

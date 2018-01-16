@@ -17,7 +17,7 @@ public:
 
     explicit greedy_minimizer(constraint_t c);
 
-    std::pair<value_t, node_set_t> minimize(set_function_t f, const node_set_t &ground_set) override;
+    std::pair<value_t, node_set_t> minimize(set_function_t f, const node_set_t &candidates) override;
 private:
 
     constraint_t c_;

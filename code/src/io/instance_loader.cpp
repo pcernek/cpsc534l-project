@@ -39,7 +39,7 @@ instance instance_loader::load_instance_from_file(const std::string &filename)
 
     stream_next_line(in_file) >> budget;
 
-    return instance{g, td, candidates, budget};
+    return instance{g, td, {}, candidates, budget};
 }
 
 std::istringstream instance_loader::stream_next_line(std::ifstream &in_file)
@@ -121,6 +121,7 @@ task_distribution_t instance_loader::load_constant_distribution(std::ifstream &i
     task_t t{skills.begin(), skills.end()};
     task_distribution_t td = std::make_shared<constant_task_distribution>(t);
 
+    // For debug purposes, print the list of skills to console
     std::ostringstream oss;
     for(const auto &skill : t)
     {

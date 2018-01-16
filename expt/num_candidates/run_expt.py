@@ -4,24 +4,29 @@ import subprocess
 import os.path as path
 
 PROJECT_DIR = '/media/paul/Data/Education/ubc/courses/ms_term1/cpsc534l/project'
-
 EXECUTABLE = path.join(PROJECT_DIR, 'code/build/run_headhunter')
-INPUT_FILE = path.join(PROJECT_DIR, 'data/dblp/dblp_smaller.tf')
 
-OUTPUT_FILE = path.join(PROJECT_DIR, 'expt/num_candidates/results.txt')
+
+INPUT_FILE = path.join(PROJECT_DIR, 'data/dblp/dblp.tf')
+# Total number of nodes in the instance file
+NUM_NODES = 1000
+
+
+OUTPUT_FILE = path.join(PROJECT_DIR, 'expt/num_candidates/results_100_many_candidates.txt')
+
+NUM_GROUND_SET_SAMPLES = 5
+GROUND_SET_SIZE = 10
 
 # Candidate numbers to try
-CANDIDATE_NUMS = [2, 4, 8, 16, 32]
+# CANDIDATE_NUMS = [2, 4, 8, 16, 32]
+CANDIDATE_NUMS = [32, 64, 128, 256]
 
 # Number of times to run an experiment 
 NUM_TRIALS = 5
-# NUM_TRIALS = 3
 
-# Total number of nodes in the instance file
-NUM_NODES = 50
-
-ALGOS = ["greedy_rs", "mc_rs", "mc_mc", "greedy_mc"]
-# ALGOS = ["mc_mc", "greedy_rs"]
+# ALGOS = ["greedy_rs", "mc_rs", "mc_mc", "greedy_mc"]
+ALGOS = ["greedy_rs", "mc_rs"]
+# ALGOS = ["brute_force"]
 
 
 RESULT_TAG = '[RESULT]'
@@ -45,31 +50,41 @@ Solution quality vs size of candidate set
 # Maybe we'll want to keep track of something else later?
 data = {"series": {a: {} for a in ALGOS}}
 
+# Pre-initialize the data structure
 for num_candidates in CANDIDATE_NUMS:
-
   budget = num_candidates / 2
   for algo in ALGOS:
-    param_set = {"num_candidates" : num_candidates, "budget": budget, "trials": []}
+    param_set = {"ground_set_size": GROUND_SET_SIZE, "num_candidates" : num_candidates, "budget": budget, "trials": []}
     data["series"][algo][num_candidates] = param_set
 
-  for i in range(NUM_TRIALS):
-    candidates = np.random.choice(range(NUM_NODES), size=num_candidates, replace=False).tolist()
-    candidate_str = ' '.join(map(str, candidates))
+for _ in range(NUM_GROUND_SET_SAMPLES):
 
-    for algo in ALGOS:
-      # This gets a reference directly into our large data structure for keeping track of results
-      trials = data["series"][algo][num_candidates]["trials"]
-      arg_list = [EXECUTABLE, algo, INPUT_FILE, str(budget), candidate_str]
-      print("Now running: ", arg_list)
+  ground_set = np.random.choice(range(NUM_NODES), size=GROUND_SET_SIZE, replace=False).tolist()
+  non_ground_set = list(set(range(NUM_NODES)) - set(ground_set))
+  ground_set_str = ' '.join(map(str, ground_set))
 
-      result = subprocess.run(arg_list, stdout=subprocess.PIPE)
-      output = result.stdout.decode()
-      # print(output)
-      elapsed_time, hires, value = parse_output(output)
-      results = {"elapsed_time": elapsed_time, "hires": ' '.join(map(str, hires)), "value": value}
-      trial = {"candidates": candidate_str, "results": results}
-      trials.append(trial)
+  for num_candidates in CANDIDATE_NUMS:
 
-  with open(OUTPUT_FILE, 'w') as fd:
-    fd.write(json.dumps(data, sort_keys=True, indent=2))
+    for i in range(NUM_TRIALS):
+      candidates = np.random.choice(non_ground_set, size=num_candidates, replace=False).tolist()
+      candidate_str = ' '.join(map(str, candidates))
+
+      for algo in ALGOS:
+        # This gets a reference directly into our large data structure for keeping track of results
+        param_set = data["series"][algo][num_candidates]
+        budget = param_set["budget"]
+        trials = param_set["trials"]
+        arg_list = [EXECUTABLE, "--algorithm", algo, "--instance-file", INPUT_FILE, "--budget", str(budget), "--ground-set", *map(str, ground_set), "--candidates", *map(str, candidates)]
+        print("Now running: ", arg_list)
+
+        result = subprocess.run(arg_list, stdout=subprocess.PIPE)
+        output = result.stdout.decode()
+        print(output)
+        elapsed_time, hires, value = parse_output(output)
+        results = {"elapsed_time": elapsed_time, "hires": ' '.join(map(str, hires)), "value": value}
+        trial = {"ground_set": ground_set_str, "candidates": candidate_str, "results": results}
+        trials.append(trial)
+
+    with open(OUTPUT_FILE, 'w') as fd:
+      fd.write(json.dumps(data, sort_keys=True, indent=2))
 

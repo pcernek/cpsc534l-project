@@ -21,7 +21,7 @@ class greed_ratio_minimizer : public minimizer
 public:
 
     explicit greed_ratio_minimizer(constraint_t c, set_function_t submodular_denominator);
-    std::pair<value_t, node_set_t> minimize(set_function_t f, const node_set_t &ground_set) override;
+    std::pair<value_t, node_set_t> minimize(set_function_t f, const node_set_t &candidates) override;
 
 protected:
 

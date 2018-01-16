@@ -31,6 +31,13 @@ struct instance
     const task_distribution_t T;
 
     /**
+     * The set of nodes forming the initial organization. We make this a subset of the whole graph
+     * to allow for more flexible permutations on the number/set of candidates while keeping a
+     * consistent initial membership of the organization.
+     */
+    node_set_t ground_set;
+
+    /**
      * A subset of all the nodes in the graph. We limit our search over these nodes.
      * If you want to search over the entire set, just set the candidate nodes equal to
      * the set of all nodes in the graph.

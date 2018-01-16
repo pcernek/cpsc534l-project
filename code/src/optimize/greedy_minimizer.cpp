@@ -16,21 +16,21 @@ hh::greedy_minimizer::greedy_minimizer(hh::constraint_t c) : c_(std::move(c))
 }
 
 std::pair<hh::value_t, hh::node_set_t>
-hh::greedy_minimizer::minimize(hh::set_function_t f, const hh::node_set_t &ground_set)
+hh::greedy_minimizer::minimize(hh::set_function_t f, const hh::node_set_t &candidates)
 {
-    if (ground_set.empty())
+    if (candidates.empty())
     {
         WARN("Received empty ground set as argument for greed_ratio_minimizer.");
-        return std::make_pair(MAX_VALUE, ground_set);
+        return std::make_pair(MAX_VALUE, candidates);
     }
-    node_set_t candidate_nodes = ground_set;
+    node_set_t candidates_copy = candidates;
     std::vector<value_t> solution_values;
     node_set_t cur_candidate_solution;
 
-    while (!candidate_nodes.empty() && c_->satisfied_by(cur_candidate_solution))
+    while (!candidates_copy.empty() && c_->satisfied_by(cur_candidate_solution))
     {
         // This is the greedy part
-        auto best_node = greedy_choose_node(candidate_nodes, cur_candidate_solution, f);
+        auto best_node = greedy_choose_node(candidates_copy, cur_candidate_solution, f);
         cur_candidate_solution.add(best_node);
         if (!c_->satisfied_by(cur_candidate_solution))
         {
@@ -39,7 +39,7 @@ hh::greedy_minimizer::minimize(hh::set_function_t f, const hh::node_set_t &groun
         }
         auto cur_val = f->eval(cur_candidate_solution);
         solution_values.push_back(cur_val);
-        candidate_nodes.remove(best_node);
+        candidates_copy.remove(best_node);
     }
 
     const auto best_value_iter = min_element(solution_values.begin(), solution_values.end());

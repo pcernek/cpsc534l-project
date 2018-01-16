@@ -20,92 +20,12 @@
 #include <optimize/hiring_budget_constraint.h>
 #include <chrono>
 #include <sstream>
+#include <optimize/brute_force_minimizer.h>
 #include "instance.h"
 #include "io/instance_loader.h"
+#include "argparse.h"
 
 using namespace hh;
-
-enum cmd_line_args
-{
-    PROGRAM_NAME,
-    ALGORITHM,
-    INSTANCE_FILE_NAME,
-    BUDGET,
-    CANDIDATES
-};
-
-enum algorithm
-{
-    GREEDY_RS,
-    MC_RS,
-    MC_MC,
-    GREEDY_MC,
-    MAX_ALGO
-};
-
-struct cmdline_params
-{
-    algorithm algo;
-    std::string instance_file_name;
-
-    bool override_budget = false;
-    double budget;
-
-    bool override_candidates = false;
-    std::vector<hh::id_t> candidates;
-};
-
-algorithm parse_algorithm(const std::string &algo_name)
-{
-    std::vector<std::string> valid_algos = {
-            "greedy_rs",
-            "mc_rs",
-            "mc_mc",
-            "greedy_mc"
-    };
-    for (auto i = 0; i < MAX_ALGO; i++)
-    {
-        if (algo_name == valid_algos[i])
-        {
-            INFO("Running " << algo_name);
-            return static_cast<algorithm>(i);
-        }
-    }
-
-    ERROR("Invalid algorithm specified: " << algo_name);
-}
-
-cmdline_params parse_cmdline_args(int argc, char **argv)
-{
-    cmdline_params p;
-
-    if (argc < INSTANCE_FILE_NAME + 1) {
-        ERROR("Insufficient command line arguments.\n"
-                      << "Must specify at least choice of algorithm and path to file representing a problem instance.");
-    }
-
-    p.algo = parse_algorithm({argv[ALGORITHM]});
-    p.instance_file_name = {argv[INSTANCE_FILE_NAME]};
-
-    p.override_budget = (argc >= BUDGET + 1);
-    if (p.override_budget) {
-        p.budget = std::stod(std::string(argv[BUDGET]));
-        INFO("Detected an overriding budget: " << p.budget)
-    }
-
-    // every arg thereafter is a candidate id
-    p.override_candidates = (argc >= CANDIDATES + 1);
-    if (p.override_candidates) {
-        for (int i = CANDIDATES; i < argc; i++) {
-            auto candidate_id = static_cast<hh::id_t>(std::stoi(argv[i]));
-            p.candidates.push_back(candidate_id);
-        }
-
-        INFO("Loaded " << p.candidates.size() << " candidates from command line. Overriding those in input file.");
-    }
-
-    return p;
-}
 
 set_function_t build_objective(const cmdline_params &p, const instance &tf)
 {
@@ -120,24 +40,27 @@ set_function_t build_objective(const cmdline_params &p, const instance &tf)
 
     constraint_t vc = std::make_shared<vacuous_constraint>();
 
-    const node_set everyone_except_candidates = tf.G->nodes.minus(tf.candidates);
-
     switch (p.algo)
     {
         case GREEDY_RS:
         case MC_RS: {
             minimizer_t rs_min = std::make_shared<greed_ratio_minimizer>(vc, util_func);
-            objective = std::make_shared<min_evaluator>(everyone_except_candidates, rs_min, inverse_ratio);
+            objective = std::make_shared<min_evaluator>(tf.ground_set, rs_min, inverse_ratio);
             break;
         }
         case MC_MC: {
             minimizer_t mc_min1 = std::make_shared<monte_carlo_minimizer>(vc, 100);
-            objective = std::make_shared<min_evaluator>(everyone_except_candidates, mc_min1, inverse_ratio);
+            objective = std::make_shared<min_evaluator>(tf.ground_set, mc_min1, inverse_ratio);
             break;
         }
         case GREEDY_MC: {
             minimizer_t mc_min2 = std::make_shared<monte_carlo_minimizer>(vc, 200);
-            objective = std::make_shared<min_evaluator>(everyone_except_candidates, mc_min2, inverse_ratio);
+            objective = std::make_shared<min_evaluator>(tf.ground_set, mc_min2, inverse_ratio);
+            break;
+        }
+        case BRUTE_FORCE: {
+            minimizer_t brute_min = std::make_shared<brute_force_minimizer>();
+            objective = std::make_shared<min_evaluator>(tf.ground_set, brute_min, inverse_ratio);
             break;
         }
         default:
@@ -169,6 +92,10 @@ minimizer_t build_minimizer(const cmdline_params &p, const instance &tf)
             m = std::make_shared<monte_carlo_minimizer>(bc, 50);
             break;
         }
+        case BRUTE_FORCE: {
+            m = std::make_shared<brute_force_minimizer>();
+            break;
+        }
         default:
             // Should never get here if the algorithm parser does its job
             ERROR("Unrecognized algorithm id: " << p.algo);
@@ -177,14 +104,8 @@ minimizer_t build_minimizer(const cmdline_params &p, const instance &tf)
     return m;
 }
 
-int main(int argc, char* argv[]) {
-
-    cmdline_params params = parse_cmdline_args(argc, argv);
-
-    DEBUG("Loading file " << params.instance_file_name);
-    instance tf = instance_loader::load_instance_from_file(params.instance_file_name);
-    INFO("Finished reading instance from file!");
-
+void amend_instance(const cmdline_params &params, instance &tf)
+{
     if (params.override_budget)
     {
         tf.budget = params.budget;
@@ -197,6 +118,25 @@ int main(int argc, char* argv[]) {
             tf.candidates.add(tf.G->nodes.get(c));
         }
     }
+    if (params.override_ground_set)
+    {
+        tf.ground_set.clear();
+        for (const auto &v : params.ground_set)
+        {
+            tf.ground_set.add(tf.G->nodes.get(v));
+        }
+    }
+}
+
+int main(int argc, char* argv[]) {
+
+    cmdline_params params = parse_cmdline_args(argc, argv);
+
+    DEBUG("Loading file " << params.instance_file_name);
+    instance tf = instance_loader::load_instance_from_file(params.instance_file_name);
+    INFO("Finished reading instance from file!");
+
+    amend_instance(params, tf);
 
     minimizer_t m = build_minimizer(params, tf);
     set_function_t objective = build_objective(params, tf);

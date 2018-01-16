@@ -22,7 +22,7 @@ public:
 
     double calc_log_likelihood(const task_t &t) const override;
 
-private:
+protected:
     const std::unordered_map<skill_t, probability_t> factored_distribution_;
 };
 

@@ -16,14 +16,14 @@ monte_carlo_minimizer::monte_carlo_minimizer(constraint_t constraint, size_t num
 }
 
 std::pair<value_t, node_set_t>
-monte_carlo_minimizer::minimize(set_function_t f, const node_set_t &ground_set)
+monte_carlo_minimizer::minimize(set_function_t f, const node_set_t &candidates)
 {
     value_t min_val_so_far = MAX_VALUE;
-    node_set_t best_sample_so_far = ground_set;
+    node_set_t best_sample_so_far = candidates;
 
     for (int i = 0; i < num_samples_; i++)
     {
-        node_set_t cur_sample = draw_sample(ground_set);
+        node_set_t cur_sample = draw_sample(candidates);
         // TODO: Ideally the objective function would nicely handle empty sets
         if(!constraint_->satisfied_by(cur_sample) || cur_sample.empty())
         {
